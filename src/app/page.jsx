@@ -146,13 +146,13 @@ function Role({ role }) {
 
   return (
     <li className="flex gap-4">
-      <div className="relative mt-1 flex h-10 w-10 flex-none items-center justify-center rounded-full shadow-md shadow-zinc-800/5 ring-1 ring-zinc-900/5 dark:border dark:border-zinc-700/50 dark:bg-zinc-200 dark:ring-0">
+      <div className="relative mt-1 flex h-10 w-10 flex-none items-center justify-center rounded-full shadow-md shadow-zinc-800/5 ring-1 ring-zinc-900/5 dark:border dark:border-zinc-700/50 dark:bg-white dark:ring-0">
         <Image src={role.logo} alt="" className="h-7 w-7" unoptimized />
       </div>
       <dl className="flex flex-auto flex-wrap gap-x-2">
         <dt className="sr-only">Company</dt>
         <dd className="w-full flex-none text-sm font-medium text-zinc-900 dark:text-zinc-100">
-          {role.company}
+          <a href={role.link}>{role.company}</a>
         </dd>
         <dt className="sr-only">Role</dt>
         <dd className="text-xs text-zinc-500 dark:text-zinc-400">
@@ -176,6 +176,7 @@ function Resume() {
   let resume = [
     {
       company: 'XCP.io',
+      link: 'https://www.xcp.io',
       title: 'Blockchain Explorer',
       logo: logoXcp,
       start: '2024',
@@ -186,6 +187,7 @@ function Resume() {
     },
     {
       company: 'DigiRare.com',
+      link: 'https://www.digirare.com',
       title: 'Counterparty NFTs',
       logo: logoDigiRare,
       start: '2018',
@@ -193,6 +195,7 @@ function Resume() {
     },
     {
       company: 'Bitcorns.com',
+      link: 'https://www.bitcorns.com',
       title: 'NFT Collection & Game',
       logo: logoBitcorn,
       start: '2018',
@@ -200,6 +203,7 @@ function Resume() {
     },
     {
       company: 'XCPDex.com',
+      link: 'https://www.xcpdex.com',
       title: 'Yahoo Finance for XCP',
       logo: logoDex,
       start: '2016',
@@ -207,6 +211,7 @@ function Resume() {
     },
     {
       company: 'XCPfolio.com',
+      link: 'https://www.xcpfolio.com',
       title: 'Premium Asset Names',
       logo: logoFolio,
       start: '2015',
@@ -226,8 +231,8 @@ function Resume() {
         ))}
       </ol>
       <p className="mt-6 text-center text-xs text-zinc-500 dark:text-zinc-400">Defunct: XCPKey.com, XCPFOX.com</p>
-      <Button href="mailto:dan@droplister.com" variant="secondary" className="group mt-6 w-full">
-        Contact Me
+      <Button href="/projects" variant="secondary" className="group mt-6 w-full">
+        More Projects
       </Button>
     </div>
   )
