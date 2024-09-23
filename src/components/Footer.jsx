@@ -26,7 +26,7 @@ export function Footer() {
                 <NavLink href="/speaking">Speaking</NavLink>
               </div>
               <p className="text-sm text-zinc-400 dark:text-zinc-500">
-                &copy; {new Date().getFullYear()} Dan Anderson. All rights
+                &copy; {new Date().getFullYear()} <a href="https://dananderson.org" className="hover:underline">Dan Anderson</a>. All rights
                 reserved.
               </p>
             </div>
