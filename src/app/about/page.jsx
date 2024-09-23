@@ -59,7 +59,7 @@ export default function About() {
             I&rsquo;m Dan Anderson, and I prefer my memes tokenized.
           </h1>
           <div className="prose dark:prose-invert mt-6 space-y-7 text-base text-zinc-600 dark:text-zinc-400">
-            <p><strong className="text-xcpBlue dark:text-zinc-200">21e14</strong> is a reference to the number of bitcoin sats that will be mined. And it&apos;s the brand name or UMBRELLA I put all my sites under that I&apos;ve built to showcase the value of Counterparty and its community.</p>
+            <p><strong className="text-xcpBlue dark:text-zinc-200">21e14</strong> is a reference to the number of bitcoin sats that will be mined. And it&apos;s the brand name or UMBRELLA I put my sites under that I&apos;ve built to showcase the value of Counterparty and its community.</p>
             <p>And I owe the Counterparty community a lot. After all, I live in a home that memes paid for. (That&apos;s saying something in this economy.)</p>
             <h2>Counterparty</h2>
             <p>I first heard about Counterparty in 2014 when it was a <a href="https://web.archive.org/web/20141018052742/https://coinmarketcap.com/" className="text-xcpBlue dark:text-zinc-200 font-medium">Top 10 Coin</a>, but it wasn&rsquo;t until 2015 that I truly dove in — running a node, hosting a wallet, and registering 1,000 assets because I saw the potential for blockchain asset names to become valuable like domain names.</p>
