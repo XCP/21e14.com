@@ -33,7 +33,7 @@ export default function Speaking() {
   return (
     <SimpleLayout
       title="I occasionally speak at events or appear on podcasts."
-      intro="Please feel free to reach out if you want to record a podacast or schedule a Twitter Space."
+      intro="Please feel free to reach out if you want to record a podcast or schedule a Twitter Space."
     >
       <div className="space-y-20">
         <SpeakingSection title="Conferences">
