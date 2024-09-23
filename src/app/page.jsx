@@ -281,7 +281,7 @@ export default async function Home() {
           </h1>
           <p className="mt-6 text-base text-zinc-600 dark:text-zinc-400">
             <strong className="text-xcpBlue dark:text-zinc-200">21e14</strong> is a suite of websites and tools built to support the
-            Counterparty community<span className="hidden md:inline">( on Bitcoin</span>. Whether it be a blockchain
+            Counterparty community<span className="hidden md:inline"> on Bitcoin</span>. Whether it be a blockchain
             explorer, NFT project, or dex trading tool, I build things
             that help showcase the onchain activity and value of
             Counterparty. ❤️
