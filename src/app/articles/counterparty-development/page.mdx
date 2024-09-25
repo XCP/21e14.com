@@ -1,0 +1,171 @@
+import { ArticleLayout } from '@/components/ArticleLayout'
+
+export const article = {
+  author: 'Dan Anderson',
+  date: '2024-09-24',
+  title: 'Counterparty Development 101',
+  description:
+    'An introduction to Counterparty development, explaining its core concepts, architecture, and resources for getting started. No node required!',
+}
+
+export const metadata = {
+  title: article.title,
+  description: article.description,
+}
+
+export default (props) => <ArticleLayout article={article} {...props} />
+
+> Originally posted on [Medium.com](https://medium.com/@droplister/counterparty-development-101-2f4d9b0c8df3), I have updated the links and explaination below to reflect the latest information as of 2024. Understanding of how building on Bitcoin works is much more widespread now thanks to Ordinals, BRC-20, and Runes.
+
+Counterparty is NOT a blockchain itself, but a software that uses the Bitcoin blockchain for its immutabiliy, signing features, and P2P network to embed and propogate protocol messages.
+
+Nodes running the Counterparty software parse and validate state changes each block and achieve consensus by running software that interprets the embedded data deterministically.
+
+Counterparty works in the same way Ordinals, BRC-20, or Runes do in that they all index the Bitcoin blockchain to compute state that is not natively validated by Bitcoin Core. Counterparty differs in that it is account-based like Ethereum or Solana rather than utxo-based.
+
+__Update__: Optional utxo-binding is now supported as of version 10.4 to allow PSBTs.
+
+## Protocol Messages
+
+There's more to it, but basically Counterparty nodes look for a `CNTRPRTY` prefix in OP_RETURN outputs and if it contains a valid protocol message the ledger is updated globally.
+
+You can think of each Counterparty message as a standardized input to a hard-coded smart contract. This differentiates Counterparty from other platforms, like Ethereum, where users write their own smart contract code resulting in varying standards, like ERC-20 vs ERC-721.
+
+Rather than users writing their own code and using different approaches for common tasks, Counterparty standardizes tasks as features: issue asset, place order, send transactions, etc.
+
+## Counterparty Core
+
+[Counterparty Core](https://github.com/CounterpartyXCP/counterparty-core) is the reference implementation of the protocol. It is not recommended to run alternate or out-dated versions of the code because consensus relies heavily on the state of the network being computed the same way by all nodes.
+
+- [Docker Installation](https://docs.counterparty.io/docs/basics/getting-started/)
+- [Manual Installation](https://docs.counterparty.io/docs/basics/manual-installation/)
+
+## Counterparty API
+
+[Counterparty API](https://counterpartycore.docs.apiary.io/) is well-documented and the developers host a public node that can be used while getting yours running. This is the quickest way to get started.
+
+One of the best features of the API, in my opinion, is the `?verbose=true` option which will return more complete information and normalized quantities.
+
+| Service      | Network | Host                | Port  | User | Pass |
+|--------------|---------|---------------------|-------|------|------|
+| Counterparty | Mainnet | api.counterparty.io | 4000  | rpc  | rpc  |
+| Counterparty | Testnet | api.counterparty.io | 14000 | rpc  | rpc  |
+| Bitcoin      | Mainnet | api.counterparty.io | 8332  | rpc  | rpc  |
+| Bitcoin      | Testnet | api.counterparty.io | 18332 | rpc  | rpc  |
+
+## Counterparty CLI
+
+[Counterparty CLI](https://docs.counterparty.io/docs/advanced/command-line-interface/usage/) is less well-documented, but is an option if you are running a node.
+
+## Getting Started
+
+The best resources are the [code itself](https://github.com/CounterpartyXCP/counterparty-core), [the docs](https://docs.counterparty.io/), and the [API docs](https://counterpartycore.docs.apiary.io/).
+
+I would start by using the public APIs (see table above) as they may be all you need for things like checking an address balance or listing open dex orders.
+
+Running your own node helps with decentralization and security, especially if you will be using your node for composing transations, but is not necessary. ($200-300/month cloud-hosted.)
+
+## Things to Know
+
+Here's a few things to know about how Counterparty works...
+
+### Asset Divisibility
+
+Assets can be divisible to 8 places or be non-divisible. All quantities are stored as integers in the database, so divisible assets need to be divided by 100000000.
+- `?verbose=true` on API endpoints will normalized values for you.
+- Assets can be reset by owners to change the divisibility settings.
+
+### Asset Management
+
+Assets are created and updated through `Issuance` messages. This includes: transferring ownership, updating description, reseting divisibility, issuing supply, and locking supply.
+
+### Asset Names
+
+There are three types of names to be aware of:
+- __Named Assets:__ 4-12 uppercase letters, cannot start with A.
+- __Numeric Asets:__ Starts with A, followed by number between 26<sup>12</sup> + 1 and 2<sup>64</sup> - 1
+- __Subassets__: Like a subdomain, 2-250 characters long. Allows: a-z, A-Z, 0-9, .-_@!.
+
+### Asset IDs
+
+Mostly a backend thing, but it's worth knowing that every asset has an ID. In the case of named assets, the ID is derived from the characters in the string.
+
+Numeric assets and subassets have random IDs within a range that's larger than the longest 12 character asset name to avoid collisions.
+
+```
+    # Convert the Base 26 string to an integer.
+    n = 0
+    for c in asset_name:
+        n *= 26
+        if c not in util.B26_DIGITS:
+            raise exceptions.AssetNameError("invalid character:", c)
+        digit = util.B26_DIGITS.index(c)
+        n += digit
+    asset_id = n
+
+    # Divide that integer into Base 26 string.
+    res = []
+    n = asset_id
+    while n > 0:
+        n, r = divmod(n, 26)
+        res.append(util.B26_DIGITS[r])
+    asset_name = "".join(res[::-1])
+```
+
+### Asset Longnames
+
+The asset ID generation method limits asset names to 4-12 letters, so to work around that subassets are issued with two names: asset and asset_longname. Asset is a random numeric asset for the backend and asset_longname is the string to display to users.
+
+### Enhanced Asset Info
+
+One optional feature of Counterparty is to put a JSON url as the asset description which allows for tx-free updates to the description and larger amounts of information.
+
+There have been a lot of alternative standards proposed for how to associate media and content with an asset that are worth looking into: Stamps, Freeport, Ordinals inscriptions, etc.
+- Learn more: https://docs.counterparty.io/docs/basics/assets/enhanced-asset/
+
+
+### Send Transactions
+
+There are a few ways to send assets, to save fees you can perform a MPMA send (multi-send). Sends can have memos. And addresses can require a memo to receive assets.
+
+### Counterparty Dex
+
+The Dex is a great way to trustlessly trade Counterparty assets it just requires that two orders match. The matching is done by Counterparty in the ledger, not onchain like a PSBT.
+
+### Order Expirations
+
+Orders cannot be open for longer than 8064 blocks and will automatically close once they expire. They can be canceled earlier with a tx.
+
+### Dispenser Risks
+
+Dispensers can be front-run in a way that risks losing funds. In most cases, there is no issue, but someone can broadcast a tx with a higher fee. Unlike with PSBTs, both txs will be valid.
+- Sending BTC without a Counterparty message will no longer trigger a dispense!
+
+### BTC Required
+
+You need to pay bitcoin miners tx fees to create a Counterparty transaction. You can receive Counterparty without having BTC. And, unless you are using utxo-binding, you can drain an address of BTC without effecting Counterparty balances.
+
+### XCP Gas Fees
+
+It costs XCP to issue a named asset, issue a dividend, or bind to a utxo.
+
+### Deprecated Code
+
+There are some things like RPS and Bets which are basically deprecated.
+
+## Resources
+
+### CODE
+- Github Organization: https://github.com/CounterpartyXCP
+- Counterparty Core: https://github.com/CounterpartyXCP/counterparty-core
+
+### DOCS
+- Counterparty Core: https://docs.counterparty.io/
+- Counterparty API: https://counterpartycore.docs.apiary.io/
+
+### RESOURCES
+- Public Node API: https://api.counterparty.io/
+- Counterparty Explorer (Mainnet): https://www.xcp.io/
+
+### COMMUNITY
+- Telegram: https://t.me/Counterparty_XCP

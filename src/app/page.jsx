@@ -7,8 +7,7 @@ import { Card } from '@/components/Card'
 import { Container } from '@/components/Container'
 import {
   GitHubIcon,
-  InstagramIcon,
-  LinkedInIcon,
+  TelegramIcon,
   XIcon,
 } from '@/components/SocialIcons'
 import logoXcp from '@/images/logos/XCP.png'
@@ -287,23 +286,14 @@ export default async function Home() {
             Counterparty. ❤️
           </p>
           <div className="mt-6 flex gap-6">
-            <SocialLink href="#" aria-label="Follow on X" icon={XIcon} />
+            <SocialLink href="https://x.com/droplister" aria-label="Follow on X" icon={XIcon} />
             <SocialLink
-              href="#"
-              aria-label="Follow on Instagram"
-              icon={InstagramIcon}
-            />
-            <SocialLink
-              href="#"
+              href="https://github.com/xcp"
               aria-label="Follow on GitHub"
               icon={GitHubIcon}
             />
-            <SocialLink
-              href="#"
-              aria-label="Follow on LinkedIn"
-              icon={LinkedInIcon}
-            />
-          </div>
+            <SocialLink href="mailto:dan@droplister.com" aria-label="Email Me" icon={MailIcon} />
+            </div>
         </div>
       </Container>
       <Photos />
@@ -315,7 +305,6 @@ export default async function Home() {
             ))}
           </div>
           <div className="space-y-10 lg:pl-16 xl:pl-24">
-            <Newsletter />
             <Resume />
           </div>
         </div>
