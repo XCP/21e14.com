@@ -1,0 +1,48 @@
+import { ArticleLayout } from '@/components/ArticleLayout'
+
+export const article = {
+  author: 'Dan Anderson',
+  date: '2024-09-26',
+  title: 'Upgrading Counterparty Core',
+  description:
+    'These are the commands I run to upgrade Counterparty Core that has been manually installed on my cloud servers. Your mileage my vary.',
+}
+
+export const metadata = {
+  title: article.title,
+  description: article.description,
+}
+
+export default (props) => <ArticleLayout article={article} {...props} />
+
+
+Here are the commands I run on my cloud servers to upgrade them to the latest version. These steps assume your node was setup this way:
+- [Manual Installation](https://docs.counterparty.io/docs/basics/manual-installation/)
+
+## Upgrade Procedure
+```
+sudo systemctl stop counterparty.service
+
+cd counterparty-core
+
+git fetch --tags
+git checkout v10.4.1 # Edit This
+
+pip uninstall counterparty-rs counterparty-core counterparty-wallet
+
+cd counterparty-rs
+pip3 install .
+cd ..
+
+cd counterparty-core
+pip3 install .
+cd ..
+
+cd counterparty-wallet
+pip3 install .
+cd ..
+
+sudo systemctl restart counterparty.service
+
+journalctl -u counterparty -f
+```
