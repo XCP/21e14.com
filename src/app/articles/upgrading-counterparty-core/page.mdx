@@ -16,8 +16,9 @@ export const metadata = {
 export default (props) => <ArticleLayout article={article} {...props} />
 
 
-Here are the commands I run on my cloud servers to upgrade them to the latest version. These steps assume your node was setup this way:
-- [Manual Installation](https://docs.counterparty.io/docs/basics/manual-installation/)
+Here are the commands I run on my cloud servers to upgrade them to the latest version.
+
+These steps assume your node was setup this way: [Manual Installation](https://docs.counterparty.io/docs/basics/manual-installation/)
 
 ## Upgrade Procedure
 ```
@@ -46,3 +47,72 @@ sudo systemctl restart counterparty.service
 
 journalctl -u counterparty -f
 ```
+
+And my systemd service files looks like this:
+
+### Counterparty
+```
+[Unit]
+Description=Counterparty Server
+After=network.target
+
+[Service]
+ExecStart=/home/user/.local/bin/counterparty-server start
+ExecStop=/bin/kill -s TERM $MAINPID
+User=user
+Group=user
+WorkingDirectory=/home/user
+Restart=always
+RestartSec=10
+KillMode=mixed
+KillSignal=SIGTERM
+TimeoutStopSec=20
+
+[Install]
+WantedBy=multi-user.target
+
+```
+
+### Addrindexrs
+```
+[Unit]
+Description=AddrIndexRS Service
+After=bitcoind.service
+
+[Service]
+WorkingDirectory=/home/user/addrindexrs
+ExecStart=/home/user/addrindexrs/target/release/addrindexrs -vvv --timestamp --indexer-rpc-host=0.0.0.0 --daemon-rpc-host=0.0.0.0 --daemon-dir=/home/user/snap/bitcoin-core/common/.bitcoin --db-dir=/home/user/addrindexrs/db --cookie=rpc:rpc
+User=user
+Group=user
+Type=simple
+KillMode=process
+TimeoutSec=60
+Restart=always
+RestartSec=60
+Environment="RUST_BACKTRACE=1"
+
+[Install]
+WantedBy=multi-user.target
+```
+
+### Bitcoin
+```
+[Unit]
+Description=Bitcoin Core Daemon
+After=network.target
+
+[Service]
+ExecStart=/snap/bin/bitcoin-core.daemon -conf=/home/user/snap/bitcoin-core/common/.bitcoin/bitcoin.conf
+User=user
+Group=user
+Type=simple
+Restart=always
+RestartSec=10
+TimeoutSec=300
+
+[Install]
+WantedBy=multi-user.target
+
+```
+
+I used snap to install my bitcoin-core, your setup may be different.
