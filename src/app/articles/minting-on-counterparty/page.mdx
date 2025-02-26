@@ -1,0 +1,90 @@
+import { ArticleLayout } from '@/components/ArticleLayout'
+
+export const article = {
+  author: 'Dan Anderson',
+  date: '2025-02-25',
+  title: 'Minting on Counterparty',
+  description:
+    'Exploring Counterparty’s new Fair Minting feature: how it works, its modes, and the settings that make it a powerful tool for decentralized token creation.',
+}
+
+export const metadata = {
+  title: article.title,
+  description: article.description,
+}
+
+export default (props) => <ArticleLayout article={article} {...props} />
+
+> This post dives into Counterparty’s latest feature: Fair Minting. As of early 2025, this addition brings a fresh twist to token creation on Bitcoin’s blockchain, blending decentralization with flexibility. If you’re familiar with BRC-20 or Ethereum’s open mints, you’ll find Fair Minting both familiar and innovative. Let’s break it down.
+
+Counterparty has long been a pioneer in embedding token functionality into Bitcoin, and Fair Minting is its newest evolution. Unlike traditional issuance, where a creator dictates supply, Fair Minting lets users mint tokens themselves under predefined rules. It’s decentralized, transparent, and packed with options—perfect for creators and communities alike.
+
+## What is Fair Minting?
+
+Fair Minting lets anyone mint tokens on Counterparty in a way that’s, well, fair. One user sets up the mint—optionally grabbing some tokens upfront (a “premint”)—and then others can join in, minting tokens by meeting the set conditions. Think of it as a decentralized token party where the rules are coded in, not controlled by a single host.
+
+The idea draws from Counterparty’s roots, like its Proof-of-Burn days when users sent BTC to an unspendable address to get XCP. More recently, it’s inspired by BRC-20’s “free mint” model, where miner fees alone unlocked tokens. In 2023, Joe Looney’s playful “XCP-20” experiment—using a burn address dispenser—showed the demand for such systems, even if it wasn’t entirely new.
+
+The motivation? Make minting native to Counterparty, ditch clunky workarounds like burn addresses, and add versatility. You can read the full backstory and technical motivation in [this gist by Ouziel Slama](https://gist.github.com/ouziel-slama/9eb05ff9890eb402cd9adb4e166a5469). Here’s the short version: it’s about fairness, decentralization, and giving creators tools to experiment.
+
+## The Three Modes of Fair Minting
+
+Fair Minting comes in three flavors, each with its own vibe:
+
+1. **Miner Fees Only**  
+   - **How it works**: Users pay just BTC miner fees to mint a set amount of tokens per transaction (controlled by `max_mint_per_tx`). No extra cost, no profit for the issuer.  
+   - **Vibe**: Pure fairness. It’s like a free NFT drop—everyone gets a shot, and the creator steps back.  
+   - **Use case**: Bootstrapping a community token where wide distribution matters more than revenue.
+
+2. **XCP Fee to Issuer**  
+   - **How it works**: Users pay XCP per token unit (set by `price`), and that XCP goes to the issuer. You can cap how much they mint per transaction with `max_mint_per_tx`.  
+   - **Vibe**: A token sale with a twist. The issuer earns, but minting stays open to all.  
+   - **Use case**: Funding a project while distributing tokens—like an ICO, but trustless.
+
+3. **XCP Fee Burned**  
+   - **How it works**: Users pay XCP per token unit, but instead of going to the issuer, it’s burned—gone forever. Same `max_mint_per_tx` option applies.  
+   - **Vibe**: Sacrifice for value. It boosts XCP scarcity while spreading tokens.  
+   - **Use case**: Rewarding commitment, like a Proof-of-Burn revival for loyal supporters.
+
+These modes are baked into two new smart contracts: `fairminter.py` (sets up the mint) and `fairmint.py` (lets users mint). After the minting period, the token locks down like any other Counterparty asset.
+
+## Settings That Shape the Mint
+
+What makes Fair Minting shine is its settings. Here’s a rundown of the key ones and what they unlock:
+
+- **`price`**: Sets the XCP cost per token unit (ignored in Miner Fees Only mode). For divisible tokens, it’s in XCP satoshis (1 XCP = 100,000,000 satoshis); for non-divisible, it’s per whole token.  
+  - **Why it matters**: Controls affordability and issuer revenue (or burn rate).
+
+- **`max_mint_per_tx`**: Limits how many tokens one transaction can mint. In Miner Fees Only, it’s the fixed amount you get per mint.  
+  - **Why it matters**: Prevents whale domination or ensures consistent distribution.
+
+- **`hard_cap`**: The max total supply. Once hit, minting stops.  
+  - **Why it matters**: Creates scarcity—like Bitcoin’s 21 million cap.
+
+- **`soft_cap` & `soft_cap_deadline_block`**: A minimum amount that must be minted (or XCP raised/burned) by a deadline block. If unmet, the mint cancels, and XCP refunds flow back. Payments are escrowed trustlessly until the cap’s reached.  
+  - **Why it matters**: A safety net for crowdfunded launches. Only “graduated” tokens survive, like Pump.fun with refunds.
+
+- **`premint_quantity`**: Tokens the issuer gets upfront at the start block.  
+  - **Why it matters**: Rewards the creator or seeds liquidity.
+
+- **`minted_asset_commission`**: A percentage (e.g., 0.05 for 5%) of each mint’s tokens goes to the issuer. Deducted from the minter’s share.  
+  - **Why it matters**: Passive income for creators without changing the XCP fee.
+
+- **`start_block` & `end_block`**: Defines the minting window.  
+  - **Why it matters**: Adds urgency or delays the party for strategic timing.
+
+- **`divisible`**: True for fractional tokens (8 decimal places), False for whole units (like NFTs).  
+  - **Why it matters**: Currency vs. collectible flexibility.
+
+- **`lock_description` & `lock_quantity`**: Locks the asset’s description or supply post-mint.  
+  - **Why it matters**: Builds trust by preventing changes.
+
+These settings work with existing assets (if unlocked) and integrate into Counterparty’s `issuances` and `assets` tables for compatibility. Check the [gist](https://gist.github.com/ouziel-slama/9eb05ff9890eb402cd9adb4e166a5469) for the nitty-gritty on implementation.
+
+## Why It’s Cool
+
+Fair Minting isn’t just another token trick—it’s a toolkit. Want a free-for-all launch? Go Miner Fees Only with no cap. Funding a DAO? Try XCP Fee to Issuer with a soft cap. Building rarity? Burn XCP and set a hard cap. The soft cap’s refund feature even makes it safer than some Ethereum drops—no rug pulls here.
+
+It’s live as of 2025, and the Counterparty community’s already buzzing. Whether you’re a dev, artist, or token dreamer, Fair Minting’s got something for you. Dive into the docs at [docs.counterparty.io](https://docs.counterparty.io/) or poke the code on [GitHub](https://github.com/CounterpartyXCP/counterparty-core) to see it in action.
+
+What’s your take? Planning a mint? Let me know—I’m all ears!

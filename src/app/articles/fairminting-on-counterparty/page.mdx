@@ -1,0 +1,211 @@
+import { ArticleLayout } from '@/components/ArticleLayout'
+
+export const article = {
+  author: 'Dan Anderson',
+  date: '2024-09-24',
+  title: 'Minting on Counterparty',
+  description:
+    'A deep dive into Counterparty’s Fairminting feature, exploring its flexible minting modes and the wide range of crypto use cases enabled by settings such as soft cap, hard cap, commission, and more.',
+}
+
+export const metadata = {
+  title: article.title,
+  description: article.description,
+}
+
+export default (props) => <ArticleLayout article={article} {...props} />
+
+> Originally posted on [Medium.com](https://medium.com/@droplister). Updated to include fresh insights on Fairminting’s potential as of 2024.
+
+---
+
+## Introduction
+
+Counterparty has long been at the forefront of leveraging Bitcoin’s blockchain for decentralized token operations. With the introduction of **Fairminting**, the ecosystem now enjoys a native, flexible mechanism to mint tokens in a decentralized manner. Fairminting builds on concepts like Proof-of-Burn and recent trends such as BRC-20, but it elevates the model by incorporating customizable settings that tailor token launches to a project's specific needs.
+
+In this post, we’ll explore the different modes of Fairminting, unpack the powerful settings (like soft cap, hard cap, commission, and more), and dive into a comprehensive list of crypto use cases enabled by this innovative feature.
+
+---
+
+## What is Fairminting on Counterparty?
+
+Fairminting enables users to mint tokens without central enrichment by the creator. The process is decentralized and comes in three distinct modes:
+
+- **Miner Fee Only (MINER_FEE_ONLY):**  
+  Users pay only the Bitcoin miner fee to mint tokens, effectively making the process “free” aside from network costs.
+
+- **XCP Fee to Issuer (XCP_FEE_TO_ISSUER):**  
+  Users pay an XCP fee per token unit, with the fee directed to the issuer. This mode facilitates fundraising while still distributing tokens fairly.
+
+- **XCP Fee Burned (XCP_FEE_BURNED):**  
+  Here, users pay an XCP fee that is burned rather than transferred. This model increases scarcity by reducing the circulating XCP supply.
+
+These modes serve as the foundation for an array of token distribution strategies, further enriched by customizable parameters such as soft caps, hard caps, commissions, and specific minting windows.
+
+---
+
+## Core Settings and Their Impact
+
+Fairminting isn’t just about choosing a minting mode—it’s about tailoring the entire token issuance process. Some of the key parameters include:
+
+- **Soft Cap & Soft Cap Deadline Block:**  
+  Sets a minimum threshold that must be met for the mint to “graduate.” If the soft cap isn’t reached by a given block, the mint is canceled and funds are refunded. This feature can be used to ensure only tokens with sufficient community backing are issued.
+
+- **Hard Cap:**  
+  Defines the maximum supply that can ever be minted, ensuring scarcity.
+
+- **Commission (minted_asset_commission):**  
+  A fraction (e.g., 0.05 for 5%) deducted from the minter’s tokens and paid to the issuer. This creates a revenue-sharing mechanism without increasing the overall token supply.
+
+- **Start & End Blocks:**  
+  Limits the minting period, creating urgency and a clear timeframe for token launches.
+
+- **Premint Quantity:**  
+  Allows the issuer to secure an initial allocation before public minting begins.
+
+- **Divisibility and Locking Features:**  
+  Decide whether tokens can be split into fractions and whether asset properties can be permanently locked after minting.
+
+---
+
+## Standard Use Cases
+
+Many projects can benefit from Fairminting’s straightforward applications:
+
+- **Decentralized Token Distribution (Fair Launch):**  
+  Using the Miner Fee Only mode, tokens can be distributed widely without direct issuer profit. This mirrors “free mint” events popular in early NFT drops.
+
+- **Token Sales with Issuer Revenue:**  
+  With the XCP Fee to Issuer mode, projects can raise funds by charging an XCP fee per token. A hard cap may be applied to maintain scarcity.
+
+- **Burn-to-Mint (Proof-of-Burn):**  
+  In the XCP Fee Burned mode, tokens are minted only when users burn a specified amount of XCP, tying the minting process to the deflationary mechanics of token burning.
+
+---
+
+## Innovative and Creative Use Cases
+
+Fairminting’s flexible settings enable more than just conventional token launches. Consider these innovative scenarios:
+
+### 1. Soft Cap for "Graduating" Tokens
+- **Concept:**  
+  Set a soft cap that must be met by a specific block height. If the threshold is reached, the mint “graduates” and tokens are distributed. Otherwise, funds are returned.
+- **Use Case:**  
+  A decentralized platform (similar to Pump.fun) where the community “mines” for the best tokens. Only those projects that achieve critical mass see their tokens fully issued—reducing risk and fostering quality.
+
+### 2. Open Mint with No Cap
+- **Concept:**  
+  Allow an infinite supply by omitting the hard cap.  
+- **Use Case:**  
+  Perfect for utility tokens in decentralized apps (dApps) or in-game currencies, where supply adjusts dynamically based on demand.
+
+### 3. Commission-Based Minting (Revenue Sharing)
+- **Concept:**  
+  Apply a commission on each mint operation. The minter receives slightly fewer tokens while the issuer earns a percentage as revenue.
+- **Use Case:**  
+  Ideal for platforms that wish to earn ongoing rewards from every token minted—akin to royalties on NFT marketplaces.
+
+### 4. Time-Limited Minting Events
+- **Concept:**  
+  Restrict minting to a specific block range.  
+- **Use Case:**  
+  Generate hype and urgency during a “minting week” or limited-time drop, driving rapid participation.
+
+### 5. Pre-mint for Initial Distribution
+- **Concept:**  
+  The issuer secures a predefined number of tokens (premint_quantity) before public minting begins.
+- **Use Case:**  
+  This ensures early supporters, team members, or liquidity pools have a stake in the token launch.
+
+### 6. Hard Cap for Limited Supply
+- **Concept:**  
+  Enforce a maximum supply to guarantee scarcity.
+- **Use Case:**  
+  Suitable for collectibles or cryptocurrencies where a finite number of tokens is crucial—similar to Bitcoin’s fixed supply.
+
+### 7. Soft Cap with Escrow for Risk Mitigation
+- **Concept:**  
+  Escrow funds until the soft cap is reached; if unmet, refunds are issued.
+- **Use Case:**  
+  Protects contributors in crowdfunded token launches, ensuring that projects only proceed if community interest is robust.
+
+### 8. Divisible vs. Non-Divisible Assets
+- **Concept:**  
+  Create tokens that are either divisible (for currency-like behavior) or non-divisible (ideal for unique collectibles).
+- **Use Case:**  
+  Use divisible tokens for microtransactions, while non-divisible tokens work best for NFTs or exclusive assets.
+
+### 9. Locked Properties for Trust
+- **Concept:**  
+  Lock the asset’s description and supply post-mint to guarantee immutability.
+- **Use Case:**  
+  Builds trust among participants, critical for tokens that represent real-world assets or legally binding instruments.
+
+---
+
+## Exhaustive Use Case Scenarios
+
+Combining these features enables a diverse array of scenarios, including:
+
+- **Fair Launch with Limited Supply:**  
+  A pure fair distribution using Miner Fee Only mode with a hard cap.
+
+- **Crowdfunded Token Launch:**  
+  Use a soft cap (with escrow) in the XCP Fee modes to launch tokens only when sufficient support is met.
+
+- **Burn-to-Mint with Commission:**  
+  Apply a commission in the Burn-to-Mint model to share rewards with the issuer.
+
+- **Time-Limited Free Mint:**  
+  Set start and end blocks for a free minting event to create scarcity and excitement.
+
+- **Infinite Supply Utility Token:**  
+  Omit the hard cap to issue a flexible supply token for ongoing ecosystem growth.
+
+- **NFT Minting with Commission:**  
+  Use non-divisible assets with a commission mechanism to facilitate royalty-like rewards.
+
+- **DAO Treasury Funding:**  
+  Launch a DAO token with a soft cap to ensure that only sufficiently supported projects proceed.
+
+- **Gamified Minting & Charity Burn Mint:**  
+  Leverage max mints per transaction or burning mechanisms to create playful or philanthropic token launches.
+
+- **Complex Launch Combos:**  
+  Mix and match soft cap, hard cap, commission, and time limits to design bespoke tokenomic models for sophisticated projects.
+
+---
+
+## How Commission Works in Fairminting
+
+A key innovation in Fairminting is the commission mechanism. When a user mints tokens, a predetermined percentage is deducted from their allocation and credited to the issuer. Here’s a step-by-step breakdown:
+
+1. **Initial Request:**  
+   A minter requests to mint 100 tokens.
+2. **Commission Calculation:**  
+   With a 5% commission, 5 tokens (0.05 × 100) are allocated as commission.
+3. **Token Distribution:**  
+   - **Minter receives:** 100 − 5 = 95 tokens  
+   - **Issuer receives:** 5 tokens  
+4. **Total Tokens Minted:**  
+   The overall supply remains 100 tokens, but the issuer benefits from a commission on each mint.
+
+| Role         | Tokens Received | Explanation                         |
+| ------------ | --------------- | ----------------------------------- |
+| **Minter**   | 95              | 100 requested − 5 commission        |
+| **Issuer**   | 5               | 5% commission on the 100 tokens     |
+| **Total**    | 100             | Sum of minter’s share and commission|
+
+This mechanism ensures that while the total minted amount stays constant, issuers can earn rewards without diluting the value received by the minters.
+
+---
+
+## Conclusion
+
+Counterparty’s Fairminting feature offers unprecedented flexibility in token launches. By supporting multiple modes—whether it’s a miner fee–only approach, revenue-generating XCP fees, or burning-based mechanisms—combined with versatile settings like soft caps, hard caps, commissions, and time restrictions, Fairminting empowers projects to tailor tokenomics to their exact needs.
+
+From fair launches and crowdfunded token sales to innovative “graduation” models that only reward tokens with real community backing, the possibilities are extensive. Whether you’re a developer, a community leader, or simply an enthusiast looking to experiment with new token models, Fairminting provides a rich toolkit to build the next generation of decentralized applications.
+
+Happy minting!
+
+---
