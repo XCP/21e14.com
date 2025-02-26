@@ -19,35 +19,33 @@ export default (props) => <ArticleLayout article={article} {...props} />
 
 Since 2014, Counterparty has been a pioneer in embedding token functionality into Bitcoin and Fairminting is its newest evolution. I didn't initially love the term "fairmint." Surely you can have unfair fairmints. But it is a term that can potentially become recognizable as refering to mints on Counterparty specifically, so it has that going for it.
 
+What I want to bring your attention to through this post is one innovative feature: *soft caps*.
+
 ## What is Fair Minting?
 
 The idea draws from Counterparty’s roots, like its Proof-of-Burn days when users sent BTC to an unspendable address to get XCP. More recently, it’s inspired by BRC-20’s “free mint” model and by SRC-20’s attempt to recreate that functionality on Counterparty. 
 
 The motivation? Make minting native to Counterparty. You can read the full backstory and technical motivation in [this gist by Ouziel Slama](https://gist.github.com/ouziel-slama/9eb05ff9890eb402cd9adb4e166a5469). Here’s the short version: it’s about giving creators tools to experiment.
 
-It's also about showing Crypto Twitter that anything you can do Counterparty can do better. One of the ways Counterparty has always had a leg up on other protocols is in asset management features. I see fairmints as an extension of that legacy.
+---
+
+## Normal Asset Issuance
+
+It's worth mentioning quickly that most Counterparty assets are "issued" rather than "minted" which means that the entire supply is held by the issuer until they distribute it through sends, dex sales, dividends, etc. Issuing an asset remains the most popular method. Since being launched 4-5 months ago, only 200 assets have been minted and in that same time period 2200 assets have been issued.
 
 ---
 
-## Introduction
-
-Counterparty has long been at the forefront of leveraging Bitcoin’s blockchain for decentralized token operations. With the introduction of **Fairminting**, the ecosystem now enjoys a native, flexible mechanism to mint tokens in a decentralized manner. Fairminting builds on concepts like Proof-of-Burn and recent trends such as BRC-20, but it elevates the model by incorporating customizable settings that tailor token launches to a project's specific needs.
-
-In this post, we’ll explore the different modes of Fairminting, unpack the powerful settings (like soft cap, hard cap, commission, and more), and dive into a comprehensive list of crypto use cases enabled by this innovative feature.
-
----
-
-## What is Fairminting on Counterparty?
+## 3 Fairminting Models
 
 Fairminting enables users to mint tokens without central enrichment by the creator. The process is decentralized and comes in three distinct modes:
 
-- **Miner Fee Only (MINER_FEE_ONLY):**  
+- **Miner Fee Only:**  
   Users pay only the Bitcoin miner fee to mint tokens, effectively making the process “free” aside from network costs.
 
-- **XCP Fee to Issuer (XCP_FEE_TO_ISSUER):**  
+- **XCP Fee to Issuer:**  
   Users pay an XCP fee per token unit, with the fee directed to the issuer. This mode facilitates fundraising while still distributing tokens fairly.
 
-- **XCP Fee Burned (XCP_FEE_BURNED):**  
+- **XCP Fee Burned:**  
   Here, users pay an XCP fee that is burned rather than transferred. This model increases scarcity by reducing the circulating XCP supply.
 
 These modes serve as the foundation for an array of token distribution strategies, further enriched by customizable parameters such as soft caps, hard caps, commissions, and specific minting windows.
