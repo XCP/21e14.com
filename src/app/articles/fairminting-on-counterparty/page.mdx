@@ -15,17 +15,17 @@ export const metadata = {
 
 export default (props) => <ArticleLayout article={article} {...props} />
 
-> This post dives into Counterparty’s latest feature: Fair Minting. As of 2024, this addition brings a fresh twist to token creation on Bitcoin’s blockchain, blending decentralization with flexibility. If you’re familiar with BRC-20 or Ethereum’s open mints, you’ll find Fair Minting both familiar and innovative. Let’s break it down.
+> This post dives into Counterparty’s latest feature: Fairminting. As of 2024, this addition brings a fresh twist to token creation on Bitcoin’s blockchain, blending decentralization with flexibility. If you’re familiar with BRC-20 or Runes, you’ll find Fairmints both familiar and innovative. Let’s break it down.
 
-Counterparty has long been a pioneer in embedding token functionality into Bitcoin, and Fair Minting is its newest evolution. Unlike traditional issuance, where a creator dictates supply, Fair Minting lets users mint tokens themselves under predefined rules. It’s decentralized, transparent, and packed with options—perfect for creators and communities alike.
+Counterparty has been a pioneer in embedding token functionality into Bitcoin since 2014, and Fairminting is its newest evolution. I didn't love the term "fairmint" initially because surely you can have unfair fairmints, but it is a term that can be potentially recognizable as refering to Counterparty specifically.
 
 ## What is Fair Minting?
 
-Fair Minting lets anyone mint tokens on Counterparty in a way that’s, well, fair. One user sets up the mint—optionally grabbing some tokens upfront (a “premint”)—and then others can join in, minting tokens by meeting the set conditions. Think of it as a decentralized token party where the rules are coded in, not controlled by a single host.
-
 The idea draws from Counterparty’s roots, like its Proof-of-Burn days when users sent BTC to an unspendable address to get XCP. More recently, it’s inspired by BRC-20’s “free mint” model, where miner fees alone unlocked tokens. In 2023, Joe Looney’s playful “XCP-20” experiment—using a burn address dispenser—showed the demand for such systems, even if it wasn’t entirely new.
 
-The motivation? Make minting native to Counterparty, ditch clunky workarounds like burn addresses, and add versatility. You can read the full backstory and technical motivation in [this gist by Ouziel Slama](https://gist.github.com/ouziel-slama/9eb05ff9890eb402cd9adb4e166a5469). Here’s the short version: it’s about fairness, decentralization, and giving creators tools to experiment.
+The motivation? Make minting native to Counterparty. You can read the full backstory and technical motivation in [this gist by Ouziel Slama](https://gist.github.com/ouziel-slama/9eb05ff9890eb402cd9adb4e166a5469). Here’s the short version: it’s about fairness, decentralization, and giving creators tools to experiment.
+
+And really it's just about showing that anything you can do Counterparty can do better. One of the ways Counterparty has always had a leg up on other protocols is in asset management features. Fairmints is an extension of that.
 
 ---
 
