@@ -1,4 +1,5 @@
 import { ArticleLayout } from '@/components/ArticleLayout'
+import mintsImage from '@/images/mints.jpeg'
 
 export const article = {
   author: 'Dan Anderson',
@@ -17,7 +18,7 @@ export default (props) => <ArticleLayout article={article} {...props} />
 
 > This post dives into Counterparty’s latest feature: Fairminting. This addition brings a fresh twist to token creation on Bitcoin’s blockchain, blending decentralization with flexibility. If you’re familiar with BRC-20 or Runes, you’ll find Fairmints both familiar and possibly better.
 
-![MINTS](https://www.xcp.io/img/mints.jpeg)
+<Image src={mintsImage} alt="MINTS" />
 
 Since 2014, Counterparty has been a pioneer in embedding token functionality into Bitcoin and Fairminting is its newest evolution. I didn't initially love the term "fairmint." Surely you can have unfair fairmints? But it is a term that can potentially become recognizable as referring to MINTS on Counterparty specifically. So, it has that going for it.
 
