@@ -36,40 +36,10 @@ export default function Speaking() {
       intro="Please feel free to reach out if you want to record a podcast or schedule a Twitter Space."
     >
       <div className="space-y-20">
-        <SpeakingSection title="Conferences">
-          <Appearance
-            href="https://www.non-nft.xyz/"
-            title="Silent Builders"
-            description="Opening talk with Judy Mam, Stellabelle, and Ilan Katin on building during the bear market."
-            event="Non-NFT Summit 2022"
-            cta="Learn more"
-          />
-          <Appearance
-            href="https://tabconf.com/"
-            title="Contributing to Open Source Projects"
-            description="Crash-course in how to collaborate, support development, and give productive feedback."
-            event="TABConf 2019"
-            cta="Learn more"
-          />
-          <Appearance
-            href="https://www.nationalartsclub.org/default.aspx?p=.NETEventView&ID=3864484&qfilter=&type=0&ssid=323204&chgs="
-            title="Introduction to Crypto Art"
-            description="Talk on Crypto Art featuring John Crain, Jess Houlgrave, Jessica Angel, and Louis Parker."
-            event="National Arts Club 2018"
-            cta="Learn more"
-          />
-          <Appearance
-            href="https://www.meetup.com/atlantabitdevs/events/247197251/"
-            title="Tokens on Bitcoin"
-            description="Talk about the Counterparty Project with live demonstration of how to issue new tokens."
-            event="Atlanta Blockchain 2018"
-            cta="Learn more"
-          />
-        </SpeakingSection>
         <SpeakingSection title="Podcasts">
           <Appearance
             href="https://www.youtube.com/watch?v=bl30m31d_zs"
-            title="COUNTERPARTY & RARE PEPES: The Forgotten History of Bitcoin NFTs"
+            title="The Forgotten History of Bitcoin NFTs"
             description="Deep dive into the history and significance of Counterparty and Rare Pepes in the Bitcoin NFT ecosystem."
             event="Hell Money Podcast, March 2025"
             cta="Watch on YouTube"
@@ -101,6 +71,36 @@ export default function Speaking() {
             description="My own podcast on Bitcoin and the goings on with NFTs and other news."
             event="Unconfirmed Transactions, 2016-2018"
             cta="Listen on Soundcloud"
+          />
+        </SpeakingSection>
+        <SpeakingSection title="Conferences">
+          <Appearance
+            href="https://www.non-nft.xyz/"
+            title="Silent Builders"
+            description="Opening talk with Judy Mam, Stellabelle, and Ilan Katin on building during the bear market."
+            event="Non-NFT Summit 2022"
+            cta="Learn more"
+          />
+          <Appearance
+            href="https://tabconf.com/"
+            title="Contributing to Open Source Projects"
+            description="Crash-course in how to collaborate, support development, and give productive feedback."
+            event="TABConf 2019"
+            cta="Learn more"
+          />
+          <Appearance
+            href="https://www.nationalartsclub.org/default.aspx?p=.NETEventView&ID=3864484&qfilter=&type=0&ssid=323204&chgs="
+            title="Introduction to Crypto Art"
+            description="Talk on Crypto Art featuring John Crain, Jess Houlgrave, Jessica Angel, and Louis Parker."
+            event="National Arts Club 2018"
+            cta="Learn more"
+          />
+          <Appearance
+            href="https://www.meetup.com/atlantabitdevs/events/247197251/"
+            title="Tokens on Bitcoin"
+            description="Talk about the Counterparty Project with live demonstration of how to issue new tokens."
+            event="Atlanta Blockchain 2018"
+            cta="Learn more"
           />
         </SpeakingSection>
       </div>
