@@ -1,4 +1,5 @@
 import { ArticleLayout } from '@/components/ArticleLayout'
+import assetsImage from '@/images/assets.png'
 
 export const article = {
   author: 'Dan Anderson',
@@ -14,6 +15,10 @@ export const metadata = {
 }
 
 export default (props) => <ArticleLayout article={article} {...props} />
+
+> Let's talk about how Counterparty handles asset ownership
+
+<Image src={assetsImage} alt="ASSETS" />
 
 One of the leaky but useful analogies for Counterparty assets is that they're like domain names. I've bought and sold domain names for over 20 years—it's how I first made money online. That experience probably made me more open to Bitcoin as an investment, being familiar with domain names as digital assets.
 
@@ -45,11 +50,13 @@ There was no real motion on either, but that's not unusual in an open source pro
 
 There is niche investor interest in asset names. The first asset registered (besides the native XCP) was TEST. It sat dormant for years, and when it finally became available for sale, the price ran up as high as $30k—not for its art but for its name and position in history.
 
-There's a black market for Rare Pepe asset ownership. Even if an asset is locked, there's cache in owning the asset itself rather than just the supply. You get merchandising rights where you can create subassets. You can update the description (if it's not locked). There's that asset management again!
+Someone registered GOLD and that's one I've long yearned to own personally.
+
+There's also a black market for Rare Pepe asset ownership. Even if an asset is locked, there's caché in owning the asset itself rather than just the supply. You get something like merchandising rights where you can create subassets. You can also update the description if it's not locked. (There's that asset management again.)
 
 ## My 1000 Asset Names
 
-So in 2015, I registered 1000 asset names. I remember building my lists, getting the XCP, sweating that someone else would register the names I wanted before I got them. It was awesome. And I'm not alone—several large portfolios of asset names have been accumulated.
+For my part, in 2015, I registered 1000 asset names. I remember building my lists, getting the XCP, sweating that someone else would register the names I wanted before I got them. It was awesome. And I'm not alone—several large portfolios of asset names exist.
 
 Some have said this is squatting and harmful to the protocol. I think in practice, it's been beneficial. Ownership of these asset names aligns you with Counterparty's success more than other more liquid tokens, including XCP itself.
 
@@ -63,11 +70,13 @@ Myself, I go through waves with Counterparty. It's been more than ten years, but
 
 ## Introducing XCPFOLIO
 
-With all that said, I'm updating my [XCPFOLIO](https://xcpfolio.com) website to not just list my names as for sale, but to give them all reasonable prices like 5 or 10 XCP and make them available for sale on the DEX with a click. ([Here's the old site](https://web.archive.org/web/20170802201035/http://xcpfolio.com/) for nostalgia.)
+With all that said, I'm updating my [XCPFOLIO](https://xcpfolio.com) website to not just list the names I have, but to give them all reasonable prices like 5 or 10 XCP and make them available for sale on the DEX with a click. ([Here's the old site](https://web.archive.org/web/20170802201035/http://xcpfolio.com/) for nostalgia.)
 
 ### How XCPFOLIO Works
 
-XCPFOLIO bridges a gap in the Counterparty protocol. While you can trade tokens on the DEX, there's never been a way to trade asset ownership itself in a trustless manner. Here's how I make it work:
+XCPFOLIO bridges a gap in the Counterparty protocol. While you can trade tokens on the DEX, there's never been a way to trade asset ownership itself in a trustless manner.
+
+Here's how I make it work:
 
 1. **Browse & Select**: Each asset name has a corresponding XCPFOLIO.ASSETNAME token with exactly 1 unit issued
 2. **Purchase on DEX**: Buy the token using XCP—our automated system monitors all purchases 24/7
@@ -75,12 +84,14 @@ XCPFOLIO bridges a gap in the Counterparty protocol. While you can trade tokens 
 
 Your asset comes ready to build: unlocked and flexible, zero supply issued, blank description, divisible by default (changeable to indivisible for NFTs). Complete ownership and control—forever, with no renewal fees.
 
-While XCPFOLIO introduces a trusted element to facilitate ownership transfers, the system is designed for maximum transparency: automated monitoring runs 24/7, ownership transfers complete in 2-3 blocks, all transactions are verifiable on-chain, and pricing is clear with no hidden fees.
+While XCPFOLIO introduces a trusted element to facilitate ownership transfers, the system is designed for maximum transparency: automated monitoring runs 24/7, ownership transfers complete in 2-3 blocks, all transactions are verifiable on-chain, and pricing is clear.
 
 ## Why Now?
 
-A few things are coming together to make this possible. Subassets no longer cost XCP to issue, and Bitcoin fees are low right now, so I've issued 1000 XCPFOLIO subassets. The other change—Unspendable Labs and the founders returning—has unlocked improved APIs, making building a lot more reasonable. That's got me interested in making a browser extension and explorer that I actually like.
+A few things are coming together to make this possible. Subassets no longer cost XCP to issue, and Bitcoin fees are low right now, so I've issued 1000 XCPFOLIO subassets. The other change—Unspendable Labs and the founders returning—has unlocked improved APIs, making building a lot more reasonable.
 
 These names come from my private portfolio, collected before Ethereum's mainnet and ENS even existed. With my domain name experience, I invested early in memorable Counterparty names. Now I'm offering them to encourage Counterparty adoption—its unique naming system is a real advantage over contract addresses.
 
 So if you haven't tinkered much with Counterparty assets, I encourage you to take a look. You can register one for as little as $2.50 at the time I'm writing this. When I originally registered my asset names, I paid $0.50. There's a lot here to explore.
+
+SECURE THE BAG
