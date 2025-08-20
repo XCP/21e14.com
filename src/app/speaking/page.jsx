@@ -68,6 +68,13 @@ export default function Speaking() {
         </SpeakingSection>
         <SpeakingSection title="Podcasts">
           <Appearance
+            href="https://www.youtube.com/watch?v=bl30m31d_zs"
+            title="COUNTERPARTY & RARE PEPES: The Forgotten History of Bitcoin NFTs"
+            description="Deep dive into the history and significance of Counterparty and Rare Pepes in the Bitcoin NFT ecosystem."
+            event="Hell Money Podcast, March 2025"
+            cta="Watch on YouTube"
+          />
+          <Appearance
             href="https://x.com/i/spaces/1mnGeRQNQqYJX"
             title="Prehistoric Ordinals"
             description="Explaining a collectible paper wallet from Casey Rodarmor workshop."

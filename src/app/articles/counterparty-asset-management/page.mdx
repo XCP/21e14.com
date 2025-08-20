@@ -1,0 +1,86 @@
+import { ArticleLayout } from '@/components/ArticleLayout'
+
+export const article = {
+  author: 'Dan Anderson',
+  date: '2025-01-20',
+  title: 'Counterparty Asset Management',
+  description:
+    'How Counterparty offers more control than most Bitcoin metaprotocol assets for asset issuers, and why asset names are the domain names of Bitcoin.',
+}
+
+export const metadata = {
+  title: article.title,
+  description: article.description,
+}
+
+export default (props) => <ArticleLayout article={article} {...props} />
+
+One of the leaky but useful analogies for Counterparty assets is that they're like domain names. I've bought and sold domain names for over 20 years—it's how I first made money online. That experience probably made me more open to Bitcoin as an investment, being familiar with domain names as digital assets.
+
+What makes domain names powerful are their robust management tools. You can update DNS, transfer ownership, issue subdomains. Counterparty asset owners have similar superpowers at their disposal: they can issue or increase supply, decrease supply, cap supply, update descriptions, transfer ownership, issue subassets, and more. Unlike domain names, this ownership never expires.
+
+I've always thought that was Counterparty's superpower.
+
+## The Fixed Supply Philosophy vs. Flexibility
+
+Most recent Bitcoin metaprotocols—and I'm not an expert on all of them—take a different view on asset management. For most, the first transaction is the last transaction with respect to management. Some transaction defines the name, supply, and minting timeframe, but beyond that it's a fixed decision frozen in time.
+
+But how you want to use an asset changes over time. That flexibility has allowed Counterparty users—some of the earliest pioneers of cryptoart on Bitcoin—to experiment and push limits. From plain-text descriptions to JSON URLs, from literal file content as descriptions to ordinal pointers and now inscriptions.
+
+Even fairminting offers an incredible array of optionality that lets creators be inventive with the tools available. I've written a [whole article on fairminting](/articles/fairminting-with-counterparty) previously.
+
+## The Unique Namespace
+
+The Counterparty namespace is different than others I've encountered. Names are globally unique—no contract address required. You can issue subassets in a parent-child hierarchy that makes discovery and trust easier.
+
+My only big complaints have always been two things:
+
+1. **You can't issue L, LL, or LLL asset names.** The shortest asset name you can issue is LLLL, yet most tickers people use are three letters. I've [proposed changes for this before and lost](https://forums.counterparty.io/t/cip-proposal-three-letter-asset-names/3944).
+
+2. **Asset names aren't tradeable in a trustless way.** If they were tradeable like memecoins or NFTs, there would be more liquidity. Something I [proposed back in 2017](https://forums.counterparty.io/t/cip-proposal-decentralized-asset-sales/4165).
+
+No real motion on either, but that's not unusual in an open source project, especially one built on Bitcoin.
+
+## The Asset Name Market
+
+There is niche investor interest in asset names, however. The first asset registered (besides the native XCP) was TEST. It sat dormant for years, and when it finally became available for sale, the price ran up as high as $30k—not for its art but for its name and position in history.
+
+There's a black market for Rare Pepe asset ownership. Even if an asset is locked, there's cache in owning the asset itself rather than just the supply. You get merchandising rights where you can create subassets. You can update the description (if it's not locked). There's that asset management again!
+
+## My 1000 Asset Names
+
+So in 2015, I registered 1000 asset names. I remember building my lists, getting the XCP, sweating that someone else would register the names I wanted before I got them. It was awesome. And I'm not alone—several large portfolios of asset names have been accumulated.
+
+Some have said this is squatting and harmful to the protocol. I think in practice, it's been beneficial. Ownership of these asset names aligns you with Counterparty's success more than other more liquid tokens, including XCP itself.
+
+One prolific portfolio is owned by J-Dog, who created XChain (the most popular and long-standing explorer) and CoinDaddy, with this same asset-name-as-domain-name vision.
+
+As a fun history note: EtherScan was originally BlockScan, a Counterparty explorer that pivoted to Ethereum!
+
+Another collector is XCER, a long-time contributor and experimenter who creates physical trading cards at [xcer.co](https://xcer.co/).
+
+Myself, I go through waves with Counterparty. It's been more than ten years, but I've promoted the protocol and built websites for the community for years. Right now, I'm riding a wave and have a lot of energy towards it. But it's always been a pretty underground, volunteer-y community.
+
+## Introducing XCPFOLIO
+
+With all that said, I'm updating my [XCPFOLIO](https://xcpfolio.com) website to not just list my names as for sale, but to give them all reasonable prices like 5 or 10 XCP and make them available for sale on the DEX with a click. ([Here's the old site](https://web.archive.org/web/20170802201035/http://xcpfolio.com/) for nostalgia.)
+
+### How XCPFOLIO Works
+
+XCPFOLIO bridges a gap in the Counterparty protocol. While you can trade tokens on the DEX, there's never been a way to trade asset ownership itself in a trustless manner. Here's how I make it work:
+
+1. **Browse & Select**: Each asset name has a corresponding XCPFOLIO.ASSETNAME token with exactly 1 unit issued
+2. **Purchase on DEX**: Buy the token using XCP—our automated system monitors all purchases 24/7
+3. **Receive Ownership**: Within 2-3 blocks after your order confirms, ownership of the actual asset transfers to your address
+
+Your asset comes ready to build: unlocked and flexible, zero supply issued, blank description, divisible by default (changeable to indivisible for NFTs). Complete ownership and control—forever, with no renewal fees.
+
+While XCPFOLIO introduces a trusted element to facilitate ownership transfers, the system is designed for maximum transparency: automated monitoring runs 24/7, ownership transfers complete in 2-3 blocks, all transactions are verifiable on-chain, and pricing is clear with no hidden fees.
+
+## Why Now?
+
+A few things are coming together to make this possible. Subassets no longer cost XCP to issue, and Bitcoin fees are low right now, so I've issued 1000 XCPFOLIO subassets. The other change—Unspendable Labs and the founders returning—has unlocked improved APIs, making building a lot more reasonable. That's got me interested in making a browser extension and explorer that I actually like.
+
+These names come from my private portfolio, collected before Ethereum's mainnet and ENS even existed. With my domain name experience, I invested early in memorable Counterparty names. Now I'm offering them to encourage Counterparty adoption—its unique naming system is a real advantage over contract addresses.
+
+So if you haven't tinkered much with Counterparty assets, I encourage you to take a look. You can register one for as little as $2.50 at the time I'm writing this. When I originally registered my asset names, I paid $0.50. There's a lot here to explore.
