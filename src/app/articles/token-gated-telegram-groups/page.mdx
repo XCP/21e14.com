@@ -1,0 +1,164 @@
+import { ArticleLayout } from '@/components/ArticleLayout'
+import hairpepeImage from '@/images/HAIRPEPE.png'
+
+export const article = {
+  author: 'Dan Anderson',
+  date: '2025-01-20',
+  title: 'Token-Gated Telegram Groups',
+  description:
+    'Building a better spam filter for Telegram groups using Counterparty assets. Because sometimes you want an exclusive club, not a public restroom.',
+}
+
+export const metadata = {
+  title: article.title,
+  description: article.description,
+}
+
+export default (props) => <ArticleLayout article={article} {...props} />
+
+<Image src={hairpepeImage} alt="HAIRPEPE" />
+
+> Let's solve an old problem with a new approach: spam bots in Telegram groups
+
+If you've run a crypto Telegram group for more than five minutes, you know the drill. Spam bots flood in faster than you can kick them out. Various solutions exist with varying degrees of success—most are either too complex to setup, secretly harvesting your chat for alpha, or both.
+
+The classic Counterparty solution has been John Villar's [telly-kickbot](https://github.com/chiguireitor/telly-kickbot), created back in 2017 to gate the HAIRPEPE Salon for holders of the legendary HAIRPEPE token. A Venezuelan contributor to Counterparty, Villar built something that worked but hasn't been maintained in years.
+
+I've always thought token-gating was one of those obvious use cases that crypto should nail. So I built an updated solution that's actually simple to use: [telegram.xcp.io](https://telegram.xcp.io/).
+
+## The Problem with Telegram Groups
+
+Here's what happens without protection:
+
+1. You create a group for your token community
+2. Within hours, it's flooded with "Elon Musk crypto giveaway" bots
+3. Real members get drowned out by noise
+4. The group becomes unusable
+
+Most bot protection either requires complex setup, invasive permissions, or—my favorite—is actually designed to monitor your chat for trading signals while pretending the anti-spam is the main feature. Trust me, I've installed them all.
+
+## Enter @xcpgroupbot
+
+My solution is straightforward: prove you have a Bitcoin wallet by signing a message. That's the baseline—you're probably human if you can sign a message. But here's where it gets interesting.
+
+You can also require specific Counterparty token holdings:
+- PEPECASH for Rare Pepe groups
+- CROPS for Bitcorn farmers
+- XCP for protocol enthusiasts
+- Any token you've created
+
+The bot handles everything automatically. Someone tries to join, they get a DM with a verification link, they prove their holdings, and they're in. Or they're not. Simple.
+
+## Two Approaches to Gating
+
+### Basic Mode: Just Prove You're Human
+At minimum, requiring Bitcoin message signing filters out 99% of spam bots. They can't sign messages because they don't have wallets. This mode is perfect for open communities that just want real humans.
+
+```
+/setpolicy basic kick
+```
+
+That's it. No token requirements, just proof you control a Bitcoin address.
+
+### Token Mode: Build Your Exclusive Club
+This is where it gets fun. Set any Counterparty asset as your gate:
+
+```
+/setpolicy token 420000 PEPECASH kick
+/setpolicy token 100 STAMPS restrict
+/setpolicy token 1000 XCP kick
+```
+
+The `kick` option removes non-holders entirely. The `restrict` option makes them read-only—they can lurk but not speak. Choose your own adventure.
+
+## My Own Groups
+
+I've created two groups to demonstrate:
+
+**[@xcpwallet](https://t.me/xcpwallet)** - Just requires wallet verification. Open to anyone who can sign a message. Think of it as the lobby.
+
+**[XCP Whales](https://t.me/+hlWSDJHkNoE0Yzgx)** - Requires 1000+ XCP. This is the VIP room for serious holders. Currently about 300 addresses qualify.
+
+## The Technical Bits
+
+The verification supports all Bitcoin address types:
+- Legacy (1...)
+- SegWit (bc1q...)
+- Nested SegWit (3...)
+- Taproot (bc1p...)
+
+Works with any wallet that can sign messages—XCP Wallet Extension gives you one-click verification, Freewallet works great, or manually sign with whatever you use.
+
+Token balances are checked via Counterparty's public API. No private keys involved, no sketchy permissions, just cryptographic proof of ownership.
+
+## Important Limitations
+
+Here's the catch—and it's a Telegram limitation, not mine. **The bot cannot see or enforce policies on existing members**.
+
+If you have 100 members already and add the bot, those 100 are grandfathered in forever. The bot only sees member #101 onwards. Telegram's API doesn't let bots get a member list, only track new joins.
+
+Your options:
+1. Start fresh with a new group
+2. Ask members to leave and rejoin
+3. Accept the two-tier system
+
+Most groups go with option 3. It's not ideal but it works.
+
+## Why This Matters
+
+We're seeing a renaissance in Counterparty usage—STAMPS, Rare Pepes, new fairmints launching daily. These communities need better tools. Not everyone wants their group to be Grand Central Station.
+
+Token-gating creates aligned communities. When everyone holds the token, conversations are different. Less "wen moon" and more actual discussion about the project. The quality improvement is immediate and obvious.
+
+Plus there's something satisfying about a group that actually requires skin in the game. No tourists, no drive-by shillers, just people with aligned interests.
+
+## Setting It Up
+
+Takes literally 30 seconds:
+
+1. Add @xcpgroupbot to your group
+2. Make it admin with "Invite Users" permission
+3. Enable "Approve new members" in group settings
+4. Run `/setpolicy` to configure requirements
+
+That's it. The bot handles the rest.
+
+For private groups, make sure your invite links have "Request Admin Approval" enabled. Otherwise people bypass the gate entirely.
+
+## Open Source Everything
+
+The whole thing is [open source on GitHub](https://github.com/XCP/groupbot). Run your own instance if you want. Fork it, modify it, make it better. This is how we build.
+
+The code is Node.js, PostgreSQL for data, standard Telegram Bot API. Nothing fancy, just solid engineering that works. Hosted version at [telegram.xcp.io](https://telegram.xcp.io) if you don't want to self-host.
+
+## The State of Spam
+
+Look, spam bots aren't going away. They're getting more sophisticated—some now use LLMs to generate contextual responses. But they still can't sign Bitcoin messages or hold Counterparty tokens.
+
+This creates a moat that's actually defensible. The cost to attack goes from zero (spinning up bot accounts) to non-zero (acquiring tokens). For most spammers, that's enough to make them move on to easier targets.
+
+## A Note on Trust
+
+Yes, there's a trusted element here—my server verifies signatures and checks balances. But everything happens in the open:
+- Signatures are cryptographically verifiable
+- Token balances are public on-chain
+- The code is open source
+- Verification completes in 2-3 blocks
+
+If you don't trust my server, run your own. That's the beauty of open source.
+
+## Beyond Anti-Spam
+
+This isn't just about keeping bots out. It's about creating spaces where ownership means something. Where holding a token grants you access to conversations, alpha, community.
+
+We've had the technology for token-gated access for years. What we haven't had is simple, usable tools that actually work. That's what I'm trying to fix.
+
+So if you're tired of your Telegram group being overrun, give it a try. At worst, you filter out some bots. At best, you create a high-signal community of actual token holders.
+
+And yes, I built this partly because I wanted better groups for my own bags. When XCP pumps to $100, those whale groups are going to be lit.
+
+**Get started:** [telegram.xcp.io](https://telegram.xcp.io)
+**The bot:** @xcpgroupbot
+**The code:** [GitHub](https://github.com/XCP/groupbot)
+
+Happy gating.
