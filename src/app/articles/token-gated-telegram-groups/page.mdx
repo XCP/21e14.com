@@ -77,7 +77,7 @@ I've created two groups to demonstrate:
 
 **[@xcpwallet](https://t.me/xcpwallet)** - Just requires wallet verification. Open to anyone who can sign a message. Think of it as the lobby.
 
-**[XCP Whales](https://t.me/+hlWSDJHkNoE0Yzgx)** - Requires 1000+ XCP. This is the VIP room for serious holders. Currently about 300 addresses qualify.
+**[XCP Whales](https://t.me/+hlWSDJHkNoE0Yzgx)** - Requires 1000+ XCP. This is the VIP room for serious holders. Currently 438 addresses qualify.
 
 ## The Technical Bits
 
@@ -87,7 +87,9 @@ The verification supports all Bitcoin address types:
 - Nested SegWit (3...)
 - Taproot (bc1p...)
 
-Works with any wallet that can sign messages—XCP Wallet Extension gives you one-click verification, Freewallet works great, or manually sign with whatever you use.
+Works with any wallet that can sign messages—XCP Wallet Extension gives you one-click verification, FreeWallet and Rare Pepe Wallet work great, or manually sign with whatever you use.
+
+Here's the reality: message signing across different wallets is a mess. We try BIP-322 first for newer address types, fall back to BIP-137, then try a loose BIP-137 verification if that fails. Why? Because wallet developers can't agree on standards and half of them implement the standards wrong anyway. It's actually a challenge to verify signatures cross-platform, but we make it work.
 
 Token balances are checked via Counterparty's public API. No private keys involved, no sketchy permissions, just cryptographic proof of ownership.
 
@@ -107,6 +109,8 @@ Most groups go with option 3. It's not ideal but it works.
 ## Why This Matters
 
 We're seeing a renaissance in Counterparty usage—STAMPS, Rare Pepes, new fairmints launching daily. These communities need better tools. Not everyone wants their group to be Grand Central Station.
+
+And let's be real—Telegram is the chat app of choice for Counterparty users. Always has been. Discord never caught on, Matrix is too complicated, and Twitter Spaces are for influencers. Telegram is where the actual community lives and breathes.
 
 Token-gating creates aligned communities. When everyone holds the token, conversations are different. Less "wen moon" and more actual discussion about the project. The quality improvement is immediate and obvious.
 
@@ -158,7 +162,7 @@ So if you're tired of your Telegram group being overrun, give it a try. At worst
 And yes, I built this partly because I wanted better groups for my own bags. When XCP pumps to $100, those whale groups are going to be lit.
 
 **Get started:** [telegram.xcp.io](https://telegram.xcp.io)
-**The bot:** @xcpgroupbot
+**The bot:** [@xcpgroupbot](https://t.me/xcpgroupbot)
 **The code:** [GitHub](https://github.com/XCP/groupbot)
 
 Happy gating.
