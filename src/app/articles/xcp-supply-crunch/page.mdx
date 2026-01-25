@@ -59,7 +59,7 @@ It got listed and did **$360 million in volume** during the exchange era (2017�
 
 <Image src={chartImage} alt="XCP Price Chart" />
 
-One parabolic run up to $100 XCP in 2018 with several other noteable movements shown.
+One parabolic run up to $100 XCP in 2018 with several other notable movements shown.
 
 Then the venues that mattered either delisted it or removed support — and a meaningful amount of XCP **never made it back to the market**.
 
@@ -73,7 +73,7 @@ Then the venues that mattered either delisted it or removed support — and a me
 
 Today, we still see those balances sitting in known exchange wallets, not moving for years.
 
-<Image src={balancesImage} alt="XCP Top Holderes" />
+<Image src={balancesImage} alt="XCP Top Holders" />
 
 Those aren't "long-term holders" in the normal sense — those are **trapped balances**.
 
@@ -90,9 +90,11 @@ That’s a headwind for adoption.
 
 But it also has a market-structure consequence that most people miss:
 
-> **You can’t “sell pressure” the market with coins you can’t move.**
+> **You can't "sell pressure" the market with coins you can't move.**
 
-If those balances don’t have a withdrawal path, they don’t participate in price discovery. They’re out of the game.
+Stranded supply reduces access and reduces the set of coins that can show up as sell-side liquidity. Dormancy does the same thing behaviorally.
+
+If those balances don't have a withdrawal path, they don't participate in price discovery. They're out of the game.
 
 <div style={{position: 'relative', paddingBottom: '56.25%', height: 0, marginBottom: '1.5rem'}}>
   <iframe
@@ -142,6 +144,8 @@ XCP's protocol supply is knowable. The float is **behavioral**. A coin can exist
 - **Headline supply** tells you how scarce the asset is in theory.
 - **Float** tells you how violent price discovery can be in practice.
 
+Here's a microstructure snapshot: if you market-bought every visible ask order across all venues right now, you'd absorb roughly **42,000 XCP**—about 1.6% of supply. That's the entire sell-side order book. Everything else is either not for sale, not accessible, or priced in someone's head at "not yet."
+
 When net demand hits a thin tape, price doesn't "trend" upward. It gaps. It teleports.
 
 <Image src={realShitImage} alt="Real Shit Meme" />
@@ -168,11 +172,11 @@ I'm banking on "low float, fast price" but the failure modes are:
 
 - **Dormant supply wakes up.** A supply crunch ends the moment old holders decide "this is my exit." However, the biggest whale has 2% of supply.
 
-- **Trapped balances re-enter circulation.** Unlikely without a withdrawal path, but not impossible (legal/bankruptcy outcomes). Would mean deep, bullish price action occured.
+- **Trapped balances re-enter circulation.** Unlikely without a withdrawal path, but not impossible (legal/bankruptcy outcomes). Would mean deep, bullish price action occurred.
 
 - **New exchange listings expand accessible float.** More venues = more liquidity = less convexity. Honestly, this is a good outcome long-term.
 
-- **Protocol activity stays low forever.** Low volume can mean exhaustion—or irrelevance. The difference is whether Counterparty usage waxes or wanes. But no metaprotocol has been used consistently for as long as Counterparty has.
+- **Protocol activity stays low forever.** Low volume can mean exhaustion—or irrelevance. The difference is whether Counterparty usage returns. But no metaprotocol has been used consistently for as long as Counterparty has.
 
 I'm emotionally and professionally over-invested in Counterparty, so I will ignore the above and hope for the best. Obviously.
 
@@ -283,22 +287,26 @@ Are old coins waking up? SYD measures how much "age" is being spent. High SYD = 
 
 All metrics together — price, velocity, SYD, and exchange net flows:
 
-| Year | Price | Velocity | SYD | CEX Net Flow | Pattern |
-|------|------:|---------:|----:|-----------:|---------|
-| 2014 | $2.50 | 2.75× | — | +57K | 🌱 Launch year, BTER is main venue |
-| 2015 | $0.60 | 2.54× | 0.79 | +84K | 🌱 Poloniex & Bittrex come online |
-| 2016 | $1.66 | 1.21× | 0.76 | +93K | 😴 Quiet, building for 2017 |
-| 2017 | $32.34 | 4.51× | 6.48 | +502K | 🔥 ICO boom, old coins moving |
-| 2018 | $2.05 | 1.94× | 3.88 | +590K | 🔥 Peak deposits, price crashing |
-| 2019 | $1.44 | 0.82× | 2.67 | -838K | 🏃 Exodus (Poloniex/Bittrex delist) |
-| 2020 | $1.12 | 0.20× | 0.24 | +59K | 😴 Quietest year ever |
-| 2021 | $8.67 | 1.90× | 2.24 | +71K | 🔥 NFT bubble, Dex-Trade online |
-| 2022 | $2.49 | 0.52× | 0.96 | +61K | — Cooling off |
-| 2023 | $5.49 | 0.39× | 0.66 | +11K | 😴 Quiet accumulation |
-| 2024 | $9.51 | 0.23× | 0.72 | -167K | 😴 Quiet + withdrawing |
-| 2025 | $2.21 | 0.20× | 0.37 | +130K | 😴 Back to 2020 levels |
+| Year | Close | High | Velocity | SYD | CEX Net Flow | Pattern |
+|------|------:|-----:|---------:|----:|-----------:|---------|
+| 2014 | $4.16 | $8 | 2.75× | — | +57K | 🌱 Launch year, BTER is main venue |
+| 2015 | $0.71 | $4 | 2.54× | 0.79 | +84K | 🌱 Poloniex & Bittrex come online |
+| 2016 | $1.84 | $5 | 1.21× | 0.76 | +93K | 😴 Quiet, building for 2017 |
+| 2017 | $35 | $35 | 4.51× | 6.48 | +502K | 🔥 ICO boom, old coins moving |
+| 2018 | $2.21 | $75 | 1.94× | 3.88 | +590K | 🔥 ATH $75 in Jan, then crash |
+| 2019 | $1.50 | $3 | 0.82× | 2.67 | -838K | 🏃 Exodus (Poloniex/Bittrex delist) |
+| 2020 | $1.26 | $2 | 0.20× | 0.24 | +59K | 😴 Quietest year ever |
+| 2021 | $10 | $27 | 1.90× | 2.24 | +71K | 🔥 NFT bubble, Dex-Trade online |
+| 2022 | $2.68 | $12 | 0.52× | 0.96 | +61K | — Cooling off |
+| 2023 | $4.26 | $5 | 0.39× | 0.66 | +11K | 😴 Quiet accumulation |
+| 2024 | $6.45 | $12 | 0.23× | 0.72 | -167K | 😴 Quiet + withdrawing |
+| 2025 | $2.36 | $9 | 0.20× | 0.37 | +130K | 😴 YTD, back to 2020 levels |
 
 **The setup:** 2020 was quiet (0.20× velocity, 0.24 SYD) → 2021 exploded. Now 2024–2025 is quiet again (0.20× velocity, 0.37 SYD) with net withdrawals. Tighter than 2020.
+
+### Distribution (Gini coefficient)
+
+XCP's current Gini coefficient is **0.954** (excluding exchange wallets). For context: Bitcoin is ~0.88–0.93, Ethereum ~0.90–0.95, most altcoins 0.90–0.99. XCP is concentrated but normal for crypto—and unlike most tokens, there was no VC or team allocation. This is organic concentration from 11 years of market activity.
 
 ### Exchange addresses identified
 
