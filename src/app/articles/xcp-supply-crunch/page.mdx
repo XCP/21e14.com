@@ -19,15 +19,40 @@ export default (props) => <ArticleLayout article={article} {...props} />
 
 ## TL;DR
 
-- **Nominal supply:** ~2.59M XCP. **Tradable reality:** meaningfully smaller.
-- **~24% of supply is effectively lost** (trapped on defunct exchanges + never-moved burn-era addresses).
-- On a **sell-side** definition of activity, **the float is extremely thin**:
-  - **Sell-side active (<1y, debit-based):** ~196K XCP (7.7%)
-  - **Recently acquired or spent (<1y, hybrid):** ~340K XCP (13.3%)
-- **~59% of balances have not had sell-side movement (or have been held) for 5+ years** — that is not price-setting liquidity.
-- **2025 looks like a quiet accumulation regime:** low velocity, low "old supply" disturbance—similar to the 2019–2020 setup that preceded XCP's repricing.
+Most people repeat "XCP has 2.59M supply" and stop there. That number is real, but it's not the number the market trades.
+
+**Three supply numbers matter:**
+
+1) **Nominal supply (headline):** ~2.59M XCP
+2) **Effective circulating (remove stuck/lost/locked):** ~1.92M XCP
+3) **Price-setting float (what can realistically hit bids):** much smaller than either—because most balances don't behave like sellers.
+
+On a **sell-side** definition of activity, the float is thin:
+
+- **Sell-side active (<1y, debit-based):** **~196K XCP (7.7%)**
+- **Recently acquired or spent (<1y, hybrid):** **~340K XCP (13.3%)**
+- **Deep dormant (5y+ on hybrid dormancy):** **~1.50M XCP (58.8%)**
+
+And the tape looks like an accumulation regime: low velocity, low "old supply" disturbance—similar in structure to the quiet setup that preceded XCP's 2020–2021 repricing.
 
 This is a follow-up to my August 2025 piece, *The Case for Counterparty's Native Token XCP*. That post was narrative and culture. This one is structure: **where the coins actually are, how often they move, and why "2.59M supply" is the wrong mental model.**
+
+---
+
+## The mental model: three floats, not one supply
+
+When you look at a token like XCP, you want to know three different things:
+
+### 1) "How many exist?"
+That's **nominal supply**. It's useful, but it's not tradable reality.
+
+### 2) "How many are even available in principle?"
+That's **effective circulating**: nominal supply minus coins that are locked, stuck, or plausibly unrecoverable.
+
+### 3) "How many actually behave like sellers?"
+That's the **price-setting float**: coins held by entities that have recently demonstrated outbound behavior (selling/spending/transferring) and are therefore plausible marginal supply.
+
+Most token analysis collapses these into one number. XCP punishes that mistake.
 
 ---
 
@@ -37,7 +62,7 @@ XCP's live supply is about **2.59M**, net of fee burns. But the market behaves l
 
 - **Trapped** (defunct/delisted exchanges)
 - **Likely lost** (never moved since the 2014 burn)
-- **Sleeping** (multi-year non-selling / non-outbound behavior)
+- **Sleeping** (multi-year "no outbound" behavior)
 - **Locked** (protocol escrow)
 
 ### Effective supply distribution
@@ -60,27 +85,32 @@ XCP's live supply is about **2.59M**, net of fee burns. But the market behaves l
 | Poloniex | 141,153 | Block 885,301 (~2024) | Delisted |
 | BTER | 26,016 | Block 580,499 (~2019) | Defunct |
 
-These aren't "dormant"—they're **stuck**. Without legal action, bankruptcy proceedings, or a withdrawal path, they're not coming back.
+These aren't "dormant"—they're **stuck**. Without a withdrawal path (or a legal/bankruptcy outcome), they don't participate in price discovery.
 
-The never-moved burn addresses (207,486 XCP) tell a similar story: early adopters who burned BTC in 2014, received XCP, and never transacted. Not once. In 11+ years. Almost certainly lost keys.
+The burn-era never movers (207,486 XCP) tell a similar story: early participants who received XCP in 2014 and never transacted. Not once. In 11+ years. That's plausibly lost keys.
+
+**So the first compression is mechanical:** a chunk of supply simply isn't there.
 
 ---
 
-## 2) Dormancy: most of the supply is not participating in price discovery
+## 2) Dormancy: most balances are not price-setting liquidity
 
-The original "active" numbers most people cite are based on **any ledger activity** (credits or debits). That can be misleading because:
+Even after you remove stuck/lost/locked supply, the remainder still doesn't behave like a "float."
 
-- Exchanges can look "active" due to internal shuffles
-- An address can look "active" by only receiving (no sell-side intent)
+A common mistake is defining "active" as **any ledger activity** (credits or debits). That counts:
 
-So here's the corrected approach.
+- Exchange cold-storage receiving and internal wallet shuffles
+- Addresses that only receive (no sell-side intent)
+
+For float analysis, the question is simpler:
+
+> **Has this holder demonstrated outbound behavior recently?**
 
 ### Hybrid dormancy (corrected)
 
 **Definition:**
-
 - If an address has **ever debited** XCP: dormancy = time since **last debit** (sell-side proxy)
-- If an address has **never debited** XCP: dormancy = time since **first credit** (how long they've been holding)
+- If an address has **never debited** XCP: dormancy = time since **first credit** (how long it has been held)
 
 This is the cleanest "how long has this balance sat without sell-side behavior" approximation you can compute without true coin-age tracking.
 
@@ -94,135 +124,137 @@ This is the cleanest "how long has this balance sat without sell-side behavior" 
 
 ### The float that actually matters
 
-Two "active" numbers matter, depending on how strict you want to be:
+There are two useful "active" numbers, depending on how strict you want to be:
 
-**Recently acquired or spent (<1y, hybrid):**
+**A) Recently acquired or spent (<1y, hybrid):**
 **~340K XCP (13.3%) across 689 addresses**
 
 This includes:
 - Addresses that spent/sold recently (debits), and
 - Addresses that received recently and haven't sold yet (new holders)
 
-**Sell-side active (<1y, debit-based):**
+**B) Sell-side active (<1y, debit-based):**
 **~196K XCP (7.7%) across 452 addresses**
 
-This is the cleanest proxy for "how much supply has demonstrated selling/spending behavior recently."
+This is the cleanest proxy for "how much supply has demonstrated outbound behavior recently."
 
-**Key claim:** XCP trades like an asset with a **thin sell-side float** sitting on top of a **very large dormant base**. That combination is exactly how you get violent repricings: a thin marginal market with big narrative surface area.
+**Key claim:** XCP sits on a **large dormant base** with a **thin sell-side float**. That's a classic recipe for discontinuous moves: a thin marginal market with not much supply willing to meet demand.
 
 ---
 
-## 3) Volume collapsed. That's not bearish—it's a setup
+## 3) Activity and "velocity": you need to de-noise exchange plumbing
 
-If you measure **economic volume** (transfers + settlements), the last few years are historically quiet.
+Volume and "velocity" are often used as a proxy for market participation. But for XCP, raw on-chain transfer volume has a known distortion:
 
-| Year | Transfer Vol | Settlement Vol | Economic Vol | Velocity |
-|------|-------------:|---------------:|-------------:|---------:|
-| 2017 | 7,678,964 | 2,459,183 | 10,138,147 | 3.83× |
-| 2021 | 4,839,525 | 1,672,335 | 6,511,860 | 2.46× |
-| 2024 | 837,621 | 198,490 | 1,036,110 | 0.39× |
-| 2025 | 816,718 | 64,439 | 881,157 | 0.33× |
+**Exchange deposit plumbing can double-count economic flow.**
 
-2025 is a low-activity year: velocity of **0.33×** means the token is doing very little work on-chain.
+The pattern:
+`user → deposit address → exchange hot wallet`
 
-That's not inherently bullish. But in low-float markets, it often means **selling is exhausted** and the remaining holders are simply holding.
+If you count both legs as "activity," you inflate volume without changing real sell pressure or real distribution.
+
+In other words:
+
+> A busy exchange can make the chain look "active" even when coins are just being routed.
+
+### Deposit→sweep inflation (why it matters)
+
+When you strip out identified deposit-address sweeps, historical "velocity" comes down—and recent years look even quieter.
+
+In particular, **2025 drops sharply** under this adjustment, consistent with a regime where:
+- fewer coins are moving,
+- and even fewer coins are moving in ways that imply selling.
+
+### Adjusted velocity (ex-deposit sweeps)
+
+| Year | Gross Velocity | Adjusted Velocity |
+|------|---------------:|------------------:|
+| 2019 | 0.91× | 0.81× |
+| 2020 | 0.21× | 0.20× |
+| 2023 | 0.40× | 0.38× |
+| 2024 | 0.24× | 0.23× |
+| 2025 | 0.32× | **0.20×** |
+
+**Interpretation:** 2025 is not "busy distribution." It's quiet. And once you remove the plumbing noise, it's even quieter.
+
+This is not automatically bullish. But in low-float markets, it often corresponds to **exhaustion of easy sellers** and a holder base that is simply sitting tight.
 
 ---
 
 ## 4) The whale alarm: Supply-Years Destroyed (SYD)
 
-Most people use velocity as a proxy for activity. But velocity can be fake—same coins churning.
+Velocity can be gamed by churn. The more structural signal is: **are old coins waking up?**
 
-A better structural signal is **SYD (Supply-Years Destroyed)**: a proxy for whether *old supply is waking up*.
+That's what **SYD (Supply-Years Destroyed)** approximates: a proxy for whether dormant supply is being disturbed.
 
-**The formula:** `SYD = LTDD ÷ (Supply × 365)`
-
+**Formula:** `SYD = LTDD ÷ (Supply × 365)`
 Where LTDD sums `amount × days_since_last_activity` at spend time (address-level "last touch" proxy).
 
 ### How to read SYD
 
-| Pattern | What It Means |
-|---------|---------------|
+| Pattern | What it suggests |
+|---------|------------------|
 | High velocity + low SYD | Churn/speculation (same coins moving) |
-| High velocity + high SYD | Genuine distribution (old coins moving) |
-| Low velocity + low SYD | Quiet accumulation (little disturbance) |
+| High velocity + high SYD | Real distribution (older coins waking up) |
+| Low velocity + low SYD | Quiet accumulation / low disturbance |
 
-### The historical record
+### What SYD is *for* (and what it isn't)
 
-| Year | Price Δ | Velocity | SYD | What Happened |
-|------|--------:|---------:|----:|---------------|
-| 2014 | -85% | 2.57× | 0.36 | Post-burn capitulation |
-| 2015 | +172% | 1.25× | 0.16 | Quiet rally |
-| 2016 | **+1584%** | 2.72× | **0.81** | Distribution into strength |
-| 2017 | -94% | 3.83× | **0.60** | Distribution into weakness |
-| 2018 | -35% | 2.16× | 0.21 | Consolidation |
-| 2019 | -28% | 0.97× | 0.04 | Quiet |
-| 2020 | **+647%** | 0.25× | 0.05 | Organic rally |
-| 2021 | -77% | 2.46× | 0.14 | Churn (same coins) |
-| 2022 | +108% | 1.02× | 0.09 | Recovery |
-| 2023 | +74% | 0.63× | 0.04 | Accumulation |
-| 2024 | -76% | 0.39× | 0.06 | Capitulation |
-| 2025 | +33% | 0.33× | 0.06 | Consolidation |
+SYD is not a price oracle. It doesn't "predict up."
 
-**2016 (SYD = 0.81):** Early holders distributed into strong ICO-boom demand. Price 16x'd.
+What it does well is answer:
 
-**2017 (SYD = 0.60):** Distribution continued, but demand dried up. Price collapsed 94%.
+> **Is the long-dormant base starting to sell into bids?**
 
-**2021 (Velocity = 2.46×, SYD = 0.14):** The "fake" activity. Same coins trading rapidly during NFT hype. No structural change. Price fell 77%.
-
-**2020 (Velocity = 0.25×, SYD = 0.05):** The healthiest pattern. Quiet accumulation, dormant supply undisturbed. Then price discovery: +647%.
-
-**Key claim:** SYD doesn't predict direction. It predicts structural change. High SYD means old supply is moving—whether into strength or weakness depends on demand.
+That's the failure mode for a "supply crunch" narrative.
 
 ---
 
-## 5) 2025 looks like 2019–2020
+## 5) The 2019–2020 setup: quiet tape, then repricing
 
-Here's the comparison that matters:
+Here's the rhyme that matters:
 
-| Metric | 2019 | 2020 | 2025 |
-|--------|-----:|-----:|-----:|
-| Velocity | 0.97× | 0.25× | 0.33× |
-| SYD | 0.04 | 0.05 | 0.06 |
-| Price Δ | -28% | +647% | +33% |
+- 2019 felt dead. Low attention. Low urgency.
+- 2020 saw a sharp repricing impulse (including a large wick), despite the market "feeling" quiet for long stretches.
+- 2021 closed far above the prior regime, implying the repricing stuck.
 
-Same vibe: low churn, low old-supply disturbance, muted attention.
+Using the yearly XCP/USD series:
+- **2019 close:** ~$1.44
+- **2020 high:** ~$22.6
+- **2021 close:** ~$8.67
 
-I'm not claiming "therefore +647%." Markets don't owe you symmetry.
+The structural claim is not "history repeats."
 
-I am claiming the on-chain structure is consistent with a low-float base. If demand returns while dormant supply stays dormant, there's not much float to absorb it.
-
----
-
-## 6) What would break this thesis
-
-If you want to be intellectually honest about "low float," you need to name the failure modes.
-
-**1. Dormant supply wakes up**
-
-A true supply crunch ends the moment old holders decide "this is my exit." Watch SYD and last-debit shifts.
-
-**2. Trapped balances re-enter circulation**
-
-Unlikely without a withdrawal path, but not impossible (legal/bankruptcy outcomes, etc.).
-
-**3. New exchange listings expand the accessible float**
-
-More venues = more liquidity = less convexity.
-
-**4. Protocol activity stays low forever**
-
-Low volume can mean exhaustion, or it can mean irrelevance. The difference is whether Counterparty activity returns.
+The claim is: **when the sell-side float is thin and dormant supply stays dormant, demand doesn't need to be huge to move price a lot.** Price discovery is a microstructure event, not a smooth walk.
 
 ---
 
-## 7) What I watch
+## 6) What would break the thesis
 
-1. **SYD (monthly/quarterly):** Is old supply waking up?
-2. **Economic volume:** Real activity or churn?
-3. **Exchange net flows:** Zaif/Dex-Trade accumulation vs distribution
-4. **Dormancy shifts:** Is the 5y+ cohort shrinking?
-5. **Protocol usage:** DEX matches, dispensers, issuances
+If you want to be intellectually honest about "low float," name the failure modes.
+
+### 1) Dormant supply wakes up
+A supply crunch ends the moment old holders decide "this is my exit."
+**Watch SYD and last-debit shifts.**
+
+### 2) Trapped balances re-enter circulation
+Unlikely without a withdrawal path, but not impossible (legal/bankruptcy outcomes).
+
+### 3) New exchange listings expand accessible float
+More venues = more liquidity = less convexity. (Also: less "teleporting.")
+
+### 4) Protocol activity stays low forever
+Low volume can mean exhaustion—or irrelevance. The difference is whether Counterparty activity returns.
+
+---
+
+## 7) What I watch (practical dashboard)
+
+1) **Sell-side float** (debit-based <1y): is it growing? shrinking?
+2) **Hybrid dormancy**: does the 5y+ cohort start compressing?
+3) **SYD (monthly/quarterly)**: are old coins waking up?
+4) **Exchange net flows**: Zaif/Dex-Trade accumulation vs distribution
+5) **Protocol usage**: DEX matches, dispensers, new issuances
 
 ---
 
@@ -230,7 +262,10 @@ Low volume can mean exhaustion, or it can mean irrelevance. The difference is wh
 
 My 2025 post argued XCP is historically important and culturally meaningful. I still believe that.
 
-This follow-up is simpler: **XCP is structurally low-float**, and on a sell-side definition it's even thinner than it looks at first glance.
+This follow-up is simpler:
+
+**XCP is structurally low-float.**
+And on a sell-side definition, it's thinner than most people assume.
 
 Low-float assets don't move like normal assets when attention returns. The tape is thin. The spreads are wide. Price doesn't walk—it teleports.
 
@@ -248,22 +283,29 @@ Your edge is understanding how much of that supply is actually available at the 
 
 **Reconciliation:** Supply reconstructed from ledger entries matches protocol supply within **2 XCP**.
 
-**Volume definitions:**
-- *Transfer Volume:* XCP debits for `send`, `mpma send`, `sweep`
-- *Settlement Volume:* XCP credits for `order match`, `dispense`, `btcpay`
-- *Economic Volume:* Transfer + Settlement (used for velocity)
-
-**Dormancy (hybrid):**
+### Dormancy (hybrid)
 - If address has ever debited XCP: **last debit date**
 - If address has never debited XCP: **first credit date**
 
-**SYD calculation:** Uses address-level "last-touch" proxy (LTDD). Not perfect coin-age (would require FIFO/LIFO tracking). May overstate age for mixed-age holdings.
+### Deposit address adjustment (de-noising volume)
+Exchange deposit addresses (user → deposit addr → exchange hot wallet) create double-counted transfer volume.
 
-**Exchange tagging:** Conservative estimates based on known/identified wallets. "Trapped" figures are lower bounds.
+We identified **9,125 deposit addresses** by pattern-matching:
+- low transaction count (≤10),
+- near-zero ending balance,
+- outbound sends exclusively to known exchange wallets.
 
-**Exchange addresses:**
+Adjusted velocity excludes these deposit→sweep legs from transfer volume. This adjustment reduces historical "activity," and it is most impactful in recent years where exchange plumbing is a larger fraction of on-chain transfers.
+
+### SYD
+SYD uses an address-level "last-touch" proxy (LTDD). It is not perfect coin-age (true coin-age would require FIFO/LIFO tracking), and it can overstate age for mixed-age balances. The purpose is regime detection: "is old supply waking up?"
+
+### Exchange tagging (conservative)
+Exchange estimates are lower bounds based on known wallets.
+
+**Exchange addresses identified:**
 - Bittrex: `1AeqgtHedfA2yVXH6GiKLS2JGkfWfgyTC6`
-- Poloniex: `1XCPdWb6kk7PGfvbdRbRuNh51aPc4vqC7`
-- BTER: `12PrRwgmAgsVJy8G7uQryi78ugGurt7vaM`
-- Zaif: `1F2zjMv6dTwTW4r9fJ7zTonXp7Tfk23su3`
-- Dex-Trade: `19fNvdGbD3dP5zqAsQhDqGyENnR5bHvZB1`
+- Poloniex: `1XCPdWb6kk7PGfvbdRbRuNh51aPc4vqC7`, `1Po1oXMCWobE6kxWr8rJEP1SRq71JSD3t4`
+- BTER: `12PrRwgmAgsVJy8G7uQryi78ugGurt7vaM`, `1NFeBp9s5aQ1iZ26uWyiK2AYUXHxs7bFmB`
+- Zaif: `1F2zjMv6dTwTW4r9fJ7zTonXp7Tfk23su3`, `1ML2b9tY5V8S9qQw6jNUs5uxkm6nKayk6x`, `1LhEGAPUZnfNDbh7oFogdekUyTW8NBfW3g`
+- Dex-Trade: `19fNvdGbD3dP5zqAsQhDqGyENnR5bHvZB1`, `1FoZGBDYamkNZMRXmjQMKXmUZv2MYe9zZz`
