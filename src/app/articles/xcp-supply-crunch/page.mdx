@@ -23,6 +23,26 @@ export const article = {
 export const metadata = {
   title: article.title,
   description: article.description,
+  openGraph: {
+    title: article.title,
+    description: article.description,
+    type: 'article',
+    url: 'https://www.21e14.com/articles/xcp-supply-crunch',
+    images: [
+      {
+        url: 'https://www.21e14.com/images/research.png',
+        width: 1200,
+        height: 630,
+        alt: 'The Coming XCP Supply Crunch EXPOSED',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: article.title,
+    description: article.description,
+    images: ['https://www.21e14.com/images/research.png'],
+  },
 }
 
 export default (props) => <ArticleLayout article={article} {...props} />
