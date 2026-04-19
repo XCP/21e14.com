@@ -1,0 +1,128 @@
+import { ArticleLayout } from '@/components/ArticleLayout'
+import csvImage from '@/images/mainnet-burns-csv.png'
+
+export const article = {
+  author: 'Dan Anderson',
+  date: '2026-04-19',
+  title: 'Auditing the 2014 XCP Burn',
+  description:
+    'The XCP burn ledger has been a hardcoded CSV inside counterparty-core for eleven years. I always found that a little weird, so I audited every row against the Bitcoin blockchain.',
+}
+
+export const metadata = {
+  title: article.title,
+  description: article.description,
+}
+
+export default (props) => <ArticleLayout article={article} {...props} />
+
+<Image src={csvImage} alt="mainnet_burns.csv in the counterparty-core repository on GitHub" />
+
+> The XCP supply has been a hardcoded CSV inside counterparty-core since 2014. Nobody I know ever checked it against Bitcoin. I finally did.
+
+XCP is Counterparty's native token. It was minted in a one-time proof-of-burn event in early 2014—anyone could send BTC to a provably-unspendable address and receive XCP in return. That five-week window is the entire supply. No pre-mine, no ICO. [More on why that matters](/articles/the-case-for-xcp).
+
+There's a file in counterparty-core that records it: [`mainnet_burns.csv`](https://github.com/CounterpartyXCP/counterparty-core/blob/master/counterparty-core/counterpartycore/lib/messages/data/mainnet_burns.csv). 2,576 rows. One per burn, with tx hash, block index, source address, satoshis burned, and XCP earned.
+
+On mainnet, this file *is* the ledger. When a node syncs and encounters a burn-era transaction, it doesn't re-derive anything from the chain. It looks the tx hash up in the CSV and credits the hardcoded `earned` amount to the hardcoded `source`.
+
+You can see the shortcut in [`burn.py`](https://github.com/CounterpartyXCP/counterparty-core/blob/master/counterparty-core/counterpartycore/lib/messages/burn.py):
+
+```python
+try:
+    row = MAINNET_BURNS[tx["tx_hash"]]
+except KeyError:
+    ledger.blocks.set_transaction_status(db, tx["tx_index"], False)
+    return
+```
+
+The first time I saw that, I had a moment. A CSV? For the genesis ledger of a Bitcoin metaprotocol? I'd always just trusted it. So had everyone else. The file has been sitting there since [December 3, 2014](https://github.com/CounterpartyXCP/counterparty-core/commit/ccabc363f0a1b225db4eb75c7b5e8a35e090ef46)—nine months after the burn period closed—and nobody I know has ever independently verified it.
+
+So I did.
+
+Short version: it's clean. The interesting parts are the *why* and the six BTC sends that didn't make the cut.
+
+## Why It's a CSV in the First Place
+
+The short answer: it's an optimization. The burn period was a closed one-time event, so its answers are frozen forever—unlike the rest of Counterparty's state, which has to be re-derived from the chain on every resync. Baking the 2,576 results into a CSV means every node agrees by construction and starts faster. Adam Krellenstein did the [hardcode](https://github.com/CounterpartyXCP/counterparty-core/commit/ccabc363f0a1b225db4eb75c7b5e8a35e090ef46) on December 3, 2014, closing [Issue #221](https://github.com/CounterpartyXCP/counterparty-core/issues/221) (tagged `enhancement`) that he'd opened five months earlier.
+
+The live burn logic still runs on testnet—it reads the tx, figures out the source, sums outputs to the unspendable address, applies the time-decay formula. On mainnet the same function just looks the answer up in the CSV. The two paths are supposed to produce the same result.
+
+In some ways the CSV is *more* explicit than the live parser: it's a plain file, 2,576 rows anyone can open and diff against the chain. You don't have to trust the parser behaved, you can just read the output. The catch—the obvious one—is that if the CSV is wrong, nothing automated catches it.
+
+## The 2014 Audit
+
+The Counterparty team [hired two well-known Bitcoin developers](https://forums.counterparty.io/t/ann-the-counterparty-weekly-blog-is-live/147) to audit the code in 2014: Sergio Demian Lerner (discovered the [Patoshi mining pattern](https://bitslog.com/2013/09/03/new-mystery-about-satoshi/), later the Bitcoin Foundation's security auditor) and [Peter Todd](https://petertodd.org/) (Bitcoin Core contributor, author of the canonical [proof-of-publication essay](https://petertodd.org/2014/setting-the-record-proof-of-publication) that references Counterparty by name).
+
+Sergio's [review](https://web.archive.org/web/2015/https://counterparty.io/news/sergio-lerner-completes-independent-security-audit/) ran Feb–April 2014 and found no significant security holes; the announcement specifically notes that *"no incorrect balances would have been reported."* Peter Todd's findings came in as a [run of GitHub issues](https://github.com/CounterpartyXCP/counterparty-core/issues?q=is%3Aissue%20label%3A%22audit%20-%20petertodd%22) through the second half of 2014, including concrete bugs like [#216](https://github.com/CounterpartyXCP/counterparty-core/issues/216) (over-broad exception handling) and [#228](https://github.com/CounterpartyXCP/counterparty-core/issues/228) (BTCpay protocol ergonomics). All closed.
+
+Both audits looked at the live parser. The CSV hardcode came after—so this post is really checking whether the file matches what the audited parser would have produced.
+
+## What Cheating Would Look Like
+
+If you wanted to quietly mint XCP for yourself, the CSV gives you seven attack surfaces:
+
+| Tampering | What it would look like |
+| :--- | :--- |
+| Phantom row | A `tx_hash` in the CSV that isn't a real Bitcoin tx |
+| Redirected source | Real tx, but the CSV's `source` doesn't match who actually signed it |
+| Inflated `earned` | Real tx, real source, but more XCP than the formula allows |
+| Shifted `block_index` | Earlier block = bigger multiplier = more XCP per sat |
+| Wrong `sent`/`burned` | Credit more than was actually sent |
+| Ignored 1-BTC cap | Cumulative burns per source > 1 BTC |
+| Omitted burn | A real burn not in the CSV, so that address earns nothing |
+
+That's the hunt list. Every one of those is checkable against Bitcoin.
+
+## My Method
+
+The nice thing about the burn is that every rule is deterministic and every input is public. Given any Bitcoin node with blocks 278310–283810, the correct list of burns is fully computable:
+
+- **Valid if** destination is `1CounterpartyXXXXXXXXXXXXXXXUWLpVr`, block is in `[278310, 283810]`, cumulative burn per source ≤ 1 BTC
+- **Source is** the single address that funded every input (the 2014 parser required all inputs to share one address)
+- **Earned is** `burned × (1000 + 500 × (BURN_END − block) / (BURN_END − BURN_START))`, rounded
+
+The formula is copied straight from [`calculate_earned_quantity`](https://github.com/CounterpartyXCP/counterparty-core/blob/master/counterparty-core/counterpartycore/lib/messages/burn.py) in counterparty-core. No randomness, no off-chain inputs. Just chain data and a multiplier that decays linearly through the burn window.
+
+I wrote a script that does two independent passes:
+
+1. **Verify the CSV.** For each of the 2,576 rows, fetch that tx from a public Bitcoin explorer and check that the CSV's source, block, sent, and earned all match what the chain says and what the formula says.
+2. **Find omissions.** Paginate every transaction that has ever sent BTC to the unspendable address (3,121 in total across Bitcoin's entire history), filter to the burn era, and flag any that the CSV doesn't include.
+
+Pass one catches any tampering in the existing rows. Pass two catches real burns that got quietly omitted.
+
+The whole thing runs against free public APIs—no keys, no paid tier. It rotates across [mempool.space](https://mempool.space/api), [blockstream.info](https://blockstream.info/api), and [mempool.emzy.de](https://mempool.emzy.de/api) for resilience, caches every response, and produces a Markdown report.
+
+You can run it yourself. The entire script is around 300 lines of Python with no dependencies outside the standard library: [**audit_burns.py on GitHub Gist**](https://gist.github.com/droplister/0cb89bda1abab23589e746aaebf8dd1b).
+
+## The Findings
+
+Every single row in the CSV matches the chain exactly.
+
+```
+CSV rows:                 2,576
+Matches:                  2,576  (source, block, sent, earned all agree)
+Mismatches:                   0
+Phantom entries:              0
+```
+
+Source addresses match `vin[0]` on every row. Block heights match. Satoshi amounts match. And the `earned` column equals the deterministic formula to the satoshi on all 2,576 entries. Not approximately—exactly.
+
+The CSV sums to **2,649,791.08 XCP earned from 2,125.63 BTC burned**—the genesis supply figure that gets quoted everywhere, now corroborated row-by-row against the chain.
+
+The more interesting finding is six **omissions**—transactions that sent BTC to the unspendable address in the burn era but aren't credited in the CSV. Every one is explained by a known 2014 parser rule: the old code required inputs to all come from the same address, and only looked at a transaction's *first* output to decide whether it was a burn. The six split into those two buckets exactly:
+
+- **Three had multiple input addresses.** Mixed-source inputs raised a `DecodeError` and the tx was skipped: `0ffcfaca...` (block 279596), `9615ea60...` (279615), `08937a25...` (281825).
+- **Three had the burn as the second output instead of the first.** The parser took `vout[0]` as the destination, so a non-burn first output (typically change or a small payment) failed the destination check: `e8bc5912...` (279622), `11b35840...` (279637), `76218644...` (280888).
+
+So: six real on-chain sends to the burn address, all six correctly excluded by the 2014 rules. Six invalid burns, six legitimate rejections. That's enforcement working as designed.
+
+(Worth noting: those six txs still sent **3.16 BTC** to the unspendable address—really, truly destroyed, no XCP in exchange. If you count those, the total BTC sacrificed in the burn era is about 2,128.8 BTC, of which 2,125.63 earned credit and 3.16 didn't.)
+
+## Bottom Line
+
+The CSV is honest. Every row matches the chain; every omission is a legitimate 2014 parser rejection. No fabricated entries, no inflated credits, no omitted honest burns.
+
+It's also a quiet case for deterministic protocols. Because the burn formula is pure and the input is Bitcoin, the right answer has been sitting there waiting to be recomputed at any time. Anybody with a Bitcoin node and 300 lines of Python could have caught tampering the whole time—it just took someone doing it.
+
+If you find anything I missed, [let me know](https://x.com/droplister).
