@@ -15,6 +15,7 @@ import logoDex from '@/images/logos/DEX.png'
 import logoFolio from '@/images/logos/folio.png'
 import logoBitcorn from '@/images/logos/BITCORN.webp'
 import logoDigiRare from '@/images/logos/DIGIRARE.png'
+import logoXcpWallet from '@/images/logos/XCP-WALLET.jpg'
 import image1 from '@/images/photos/image-1.jpg'
 import image2 from '@/images/photos/image-2.jpg'
 import image3 from '@/images/photos/image-3.jpg'
@@ -173,6 +174,17 @@ function Role({ role }) {
 
 function Resume() {
   let resume = [
+    {
+      company: 'XCP Wallet',
+      link: 'https://chromewebstore.google.com/detail/xcp-wallet/nicpjdbehgcjbjfjkobcidnfmfpijohg',
+      title: 'Browser Extension Wallet',
+      logo: logoXcpWallet,
+      start: '2025',
+      end: {
+        label: 'Present',
+        dateTime: new Date().getFullYear().toString(),
+      },
+    },
     {
       company: 'XCP.io',
       link: 'https://www.xcp.io',

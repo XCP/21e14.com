@@ -1,0 +1,46 @@
+import { ArticleLayout } from '@/components/ArticleLayout'
+
+export const article = {
+  author: 'Dan Anderson',
+  date: '2026-02-10',
+  title: 'Introducing XCP Wallet',
+  description:
+    'A browser extension wallet for Counterparty: 12 runtime dependencies, Cure53-audited crypto, Trezor support, UTXO atomic swaps.',
+}
+
+export const metadata = {
+  title: article.title,
+  description: article.description,
+}
+
+export default (props) => <ArticleLayout article={article} {...props} />
+
+XCP Wallet is a Chrome extension for Bitcoin and Counterparty. Send BTC and Counterparty tokens, trade on the DEX, issue assets, sign dApp transactions, all from your browser.
+
+## Features
+
+- **Send, issue, dispense, trade** — the full Counterparty DEX, from your browser
+- **UTXO atomic swaps** — trade UTXO-attached assets via [xcpdex.com](https://xcpdex.com), single-transaction settlement
+- **Trezor support** — your seed phrase never enters the extension
+- **dApp provider API** — sites request transactions, you approve from the extension
+- **BIP-322 message signing** — prove ownership without moving funds
+- **Import from Freewallet** — BIP39 seed phrases, legacy and SegWit derivation paths
+
+## Dependency Hygiene
+
+**12 runtime dependencies.** Most browser wallets ship 100+. Crypto is entirely [`@noble`](https://github.com/paulmillr/noble-hashes) and [`@scure`](https://github.com/paulmillr/scure-bip39) — Cure53-audited. No `bitcoinjs-lib`, no `ethers`, no `axios`.
+
+Key storage: AES-256-GCM + PBKDF2 (600k iterations). Local tx verification. Trezor for hardware signing. MV3-compliant CSP. Not yet independently audited — see [AUDIT.md](https://github.com/XCP/extension/blob/main/AUDIT.md).
+
+## Install
+
+- **[Chrome Web Store](https://chromewebstore.google.com/detail/xcp-wallet/nicpjdbehgcjbjfjkobcidnfmfpijohg)** — one-click install
+- **[GitHub Releases](https://github.com/XCP/extension/releases)** — versioned builds for side-loading
+- **[Source](https://github.com/XCP/extension)** — 309 commits, 99% TypeScript, MIT
+
+## Learn and Get Help
+
+- **[Video tutorials](https://www.youtube.com/watch?v=yPXb6oD3iTg&list=PLzUfUR_ZcfqDHYGJ6VTATINupuZxGJXm8)** — setup, sending, dApp connections, UTXO swaps
+- **[Telegram support](https://web.telegram.org/k/#@xcpwallet)** — questions, bugs, feature requests
+
+If you care about Counterparty and not trusting kitchen-sink wallets, the code is [on GitHub](https://github.com/XCP/extension).
