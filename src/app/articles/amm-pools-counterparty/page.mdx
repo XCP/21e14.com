@@ -1,0 +1,140 @@
+import { ArticleLayout } from '@/components/ArticleLayout'
+import Image from 'next/image'
+import coverImage from '@/images/wavepool.jpg'
+
+export const article = {
+  author: 'Dan Anderson',
+  date: '2026-04-20',
+  title: 'Liquidity Pools Are Coming to Counterparty',
+  description:
+    "Uniswap v2-style AMM pools, on Bitcoin, composed with Counterparty's eleven-year-old order book. Similar to what you know, better in some ways, and better than the alternative — which is nothing.",
+}
+
+export const metadata = {
+  title: article.title,
+  description: article.description,
+  openGraph: {
+    title: article.title,
+    description: article.description,
+    type: 'article',
+    url: 'https://www.21e14.com/articles/amm-pools-counterparty',
+    images: [
+      {
+        url: 'https://www.21e14.com/images/wavepool.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Liquidity Pools Are Coming to Counterparty',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: article.title,
+    description: article.description,
+    images: ['https://www.21e14.com/images/wavepool.jpg'],
+  },
+}
+
+export default (props) => <ArticleLayout article={article} {...props} />
+
+<Image src={coverImage} alt="Wave pool" />
+
+> AMMs you've used on Ethereum and Solana are coming to Counterparty. Different because Bitcoin settles differently. Better in a few ways. Absolutely better than the order book alone.
+
+Counterparty's DEX has worked since 2014. Traders place orders on-chain, the protocol matches them, assets swap trustlessly, no custodian. It works.
+
+The problem is that it's a pure order book. If nobody's posted the other side of what you want, your order sits. Orders expire after two months.
+
+That's rough on Counterparty because much of what trades here is thin: Rare Pepes, Spells of Genesis cards, long-tail memecoins.
+
+A buyer and a seller three months apart in a thin pair never see each other's orders. Without a market maker continuously reposting quotes, the market just isn't there.
+
+So, in the brave new world of AI, I designed and coded [PR #3281](https://github.com/CounterpartyXCP/counterparty-core/pull/3281): Uniswap v2-style AMM pools that coexist with the order book, and create that swap experience you're used to.
+
+## What's the same as Uniswap v2
+
+- Each pair has one pool with two assets.
+- The ratio of reserves sets the price.
+- Swaps grow the constant product `k`; fees accumulate into reserves.
+- LP tokens represent your share. Deposit mints, withdraw burns.
+- Impermanent loss is real and works exactly the same way.
+
+## What's different on Bitcoin
+
+| Property | Most AMMs | Counterparty pools |
+| --- | --- | --- |
+| Block time | 1–12 seconds | ~10 minutes |
+| Flash loans | Possible | **Structurally impossible** |
+| Reentrancy / callbacks | Smart contract risk | **Don't exist here** |
+| Admin keys / governance | Usually yes | **None. LP issuer is `UNSPENDABLE`** |
+| LP token | Contract-held balance | Native numeric asset (`A123456`) |
+| Order book coexistence | Separate layer | **Composed in the same matcher** |
+| Fee structure | Flat or user-selected tier | Fixed by pair type |
+
+The slow block time is the tradeoff. The rest are structural wins.
+
+## How a pool works
+
+**Alice creates the pool.** She deposits 100 XCP + 1000 PEPECASH at a 10:1 ratio. The protocol mints 316 new numeric LP tokens (`A123456`) and sends them all to her. She owns 100% of the pool.
+
+**Traders swap** against the pool. Fees (0.5% of input on XCP pairs) stay in the pool as added reserves. The constant `k = reserve_a * reserve_b` grows with every swap and never shrinks.
+
+**Alice withdraws** by destroying her LP tokens. She gets her proportional share of whatever's in the pool at that moment.
+
+| Step | XCP reserve | PEPECASH reserve | LP supply | Alice's share |
+| --- | --- | --- | --- | --- |
+| Alice deposits 100 + 1000 | 100 | 1000 | 316 | 316 (100%) |
+| Trader sells 10 XCP, gets ~90 PEPECASH | 110 | ~910 | 316 | 316 (100%) |
+| More trades in both directions | ~102 | ~1002 | 316 | 316 (100%) |
+| Alice destroys 316 LP, withdraws | 0 | 0 | 0 | — |
+
+Alice receives **~102 XCP + ~1002 PEPECASH**. She deposited 100 + 1000 — slightly more of both now, thanks to accumulated fees.
+
+If PEPECASH had ended much higher vs XCP, she'd have withdrawn **less PEPECASH and more XCP** (impermanent loss). If much lower, the opposite.
+
+## For traders, nothing changes
+
+Creating and maintaining a pool is a specialist role. Trading against one isn't.
+
+There's no new order type, no new interface, no new workflow. Place an order the way you always have, and the protocol matches it against whatever gives you the best price — resting orders, the pool, or a mix.
+
+If you've used the DEX since 2014, your experience is unchanged. It just has more liquidity behind it now.
+
+## Fees
+
+| Pair | Fee |
+| --- | --- |
+| XCP pair | **0.5%** |
+| Non-XCP pair | **1%** |
+
+Lower fee on XCP pairs steers volume toward XCP. Network effects of money: the protocol benefits when the native asset is the most liquid thing on the exchange.
+
+Higher fee on non-XCP pairs pays LPs twice as much per swap to compensate for lower baseline volume. Both rates are protocol-fixed.
+
+Uniswap v3 added fee tiers and concentrated liquidity; Counterparty's book+pool composition approximates both in one step — post bids and asks around the pool price and you've concentrated liquidity without NFT management.
+
+## Pools as a community tool
+
+Fee-maximizing LP management is a specialist role. Most people holding Counterparty tokens shouldn't do it.
+
+The more interesting use: **pools are a tool for the communities behind the assets**. Depositing alongside XCP isn't really a yield play — it's financial support, providing the depth your own token needs to trade without spreads.
+
+Lock the support permanently by sending LP tokens to `UNSPENDABLE`. The liquidity stays forever. This is how other chains signal "we're not going to rug," enforced here by the address having no private key rather than a custodian.
+
+## Why this matters for XCP
+
+There aren't many XCP market makers. A small handful do it by hand; nobody's running algos.
+
+Pools change the shape. Depth accrues around XCP, spreads tighten, the DEX becomes a routing layer. XCP gets more liquid — which [matters](/articles/xcp-supply-crunch) given how thin the float already is.
+
+## What comes next
+
+Pools as a primitive are useful. Pools **composed** with other primitives are where the design space opens up.
+
+The follow-up PR ([#3285](https://github.com/CounterpartyXCP/counterparty-core/pull/3285)) adds trustless pool-funded token launches — fairminters that auto-create a pool at soft-cap close. Separate article.
+
+A quieter parallel improvement: issue [#3261](https://github.com/CounterpartyXCP/counterparty-core/issues/3261) proposes optional order expirations. Today orders expire in two months max; optional expiration means bids and asks on thin pairs can persist for years as market conditions change. Less dramatic than pools, but the kind of background change that compounds.
+
+See the [PR description](https://github.com/CounterpartyXCP/counterparty-core/pull/3281) for math, invariants, formal verification, and the full rigor stack.
+
+NFTs get markets. Memecoins get launches. XCP gets depth.
