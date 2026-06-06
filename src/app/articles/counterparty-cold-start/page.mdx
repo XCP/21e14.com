@@ -1,0 +1,105 @@
+import { ArticleLayout } from '@/components/ArticleLayout'
+import coldStart from './cold-start.png'
+import warmedUp from './warmed-up.png'
+import pepecash from './pepecash.png'
+
+export const article = {
+  author: 'Dan Anderson',
+  date: '2026-06-05',
+  title: 'XCP Pools: A Cold Start',
+  description:
+    "Counterparty's AMM pools won't recreate DeFi's liquidity-mining boom, and don't need to. The play is turning a ten-year backlog of cultural assets, their creators, games, and fairmints into liquid markets, with XCP as the routing layer underneath. The bootstrapping playbook, and why this cold start is different.",
+}
+
+export const metadata = {
+  title: article.title,
+  description: article.description,
+  openGraph: {
+    title: article.title,
+    description: article.description,
+    type: 'article',
+    url: 'https://www.21e14.com/articles/counterparty-cold-start',
+    images: ['https://www.21e14.com/images/cold-start.png'],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: article.title,
+    description: article.description,
+    images: ['https://www.21e14.com/images/cold-start.png'],
+  },
+}
+
+export default (props) => <ArticleLayout article={article} {...props} />
+
+<Image src={coldStart} alt="A bearded ice-bather surfacing in a frozen pool beside a pink Counterparty logo" className="rounded-2xl" priority />
+
+Counterparty has liquidity pools now. Building them was the easy part. The hard part is what every AMM runs into at launch: the pools start *empty.* No liquidity, no trades, no price, and no reason for the first trader to bother. A cold start.
+
+It's actually the best-documented problem in DeFi. Counterparty is roughly where Uniswap was in 2018, and every AMM since has had to solve the same cold start. Luckily, the playbook is already written. The trick is to copy the parts that transfer and skip the parts that don't.
+
+**The opportunity is to turn Counterparty's existing cultural assets, memes, and games into liquid markets, with XCP as the routing layer underneath them.**
+
+Why XCP specifically? Because XCP is native to Counterparty in a way BTC and ETH are not. BTC reaches Counterparty through dispensers. ETH reaches it through Emblem Vaults on OpenSea. Both matter, but both are manual: manual prices, manual buyers, manual sellers.
+
+The DEX history shows the cost of that. Of the 560,000-plus orders placed over the years, less than half ever filled. Pools solve the missing-counterparty problem. They are always there, automatically quoting both sides. That is the role XCP can uniquely play inside Counterparty: the always-on liquidity layer that BTC and ETH can reach, but cannot become.
+
+## How other pools warmed up
+
+<Image src={warmedUp} alt="A swimmer wading into a clear natural pool, the logos of the major AMMs shimmering in the water" className="rounded-2xl" />
+
+Every breakout AMM leaned on the same few levers: permissionless listing, token incentives, launchpads, liquidity migration, routing, and games. The *explosive* growth usually came from token emissions: printing a new token to pay people to fund the pools. But emissions are fireworks you *rent*; everything else, you *build.*
+
+So we take each durable lever and find our version of it:
+
+| What worked elsewhere | Our version |
+| --- | --- |
+| Permissionless long-tail listing ([Uniswap](https://uniswap.org)) | Activate the ten-year asset backlog, PEPECASH first |
+| Launchpad bundles launch + liquidity ([Raydium](https://raydium.io/acceleraytor/), [Jupiter](https://jup.ag)) | **Fairmint-funded pools**: operator-less, our farming substitute |
+| Liquidity migration / vampire attack ([SushiSwap](https://www.sushi.com)) | Repatriate ETH/Emblem liquidity |
+| Hybrid + routing (Raydium, Jupiter) | Order↔pool matching + best-execution quote, already built |
+| Project teams seed early liquidity | Creator-led pools (BITCORN, BITCRYSTALS) |
+| Gamification ([PancakeSwap](https://pancakeswap.finance)) | Games: Bitcorn Crops, Spells of Genesis |
+
+## Who starts the first pools
+
+<div className="relative my-6 w-full" style={{ paddingBottom: '56.25%' }}>
+  <iframe className="absolute inset-0 h-full w-full rounded-2xl" src="https://www.youtube.com/embed/Nt2OVAgkHBc?si=pTjaDFIxfMPJGbW5" title="Just 2 Guyz" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
+</div>
+
+A pool earns fees, 0.5% on XCP pairs and 1% on non-XCP pairs, but on a chain this size they're thin, and unlike other protocols we have no emissions to stack on top. So at first you fund a pool not for the yield but because you want the market to work. The people who want that most are its creators, who have the supply to do it.
+
+It's already happening. Shaban created BITCRYSTALS, the currency of Spells of Genesis, and has shown interest in starting its pool. I built Bitcorn Crops, so I'll do the same for BITCORN. Each creator becomes the first liquidity provider for the thing they care about most.
+
+Elsewhere, that liquidity was rented from mercenaries chasing an APY. **Ours comes from the people who wanted the coin in the first place.** Farmers leave the second the rewards dry up; believers don't.
+
+## PEPECASH is the keystone
+
+<Image src={pepecash} alt="The Pepe Cash card as the keystone of a stone arch built from Rare Pepe cards" className="rounded-2xl" />
+
+For the near term, the pool that matters most is PEPECASH/XCP. The [XCP DEX](https://www.xcpdex.com) history makes the case: PEPECASH is the most-traded XCP pair, and it's the currency of Rare Pepe, whose ten-year anniversary is approaching.
+
+That matters because Rare Pepe isn't just another collection. It's the biggest economy on Counterparty:
+
+| Market | Trades | Volume |
+| --- | --- | --- |
+| Rare Pepe cards vs XCP | 45,686 | 2.3M XCP |
+| Rare Pepe cards vs PEPECASH | 36,116 | 311.9M PEPECASH |
+| PEPECASH vs XCP | 9,434 | 328K XCP / 753.3M PEPECASH |
+
+The collection is close to half of all ~194,000 trades in DEX history, and more than 80% of every PEPECASH-denominated trade is a Rare Pepe card. PEPECASH isn't just a popular token; it's the internal money of Counterparty's biggest economy.
+
+That makes a deep PEPECASH/XCP pool special. It isn't one market but a bridge between two: cards priced in PEPECASH on one side, XCP and the rest of the chain on the other. With 100 XCP in the pool, that bridge is a footpath. With 5,000 or 10,000, it's a highway. You don't just make a single market liquid, you make the whole collection more liquid.
+
+## The next step: pools without an operator
+
+Creators seeding pools by hand is the start, not the end. The version that compounds removes even the founder from the loop. A fairmint-funded pool lets a token's launch fund its own market: everyone who mints commits a little XCP, that XCP locks straight into a pool, and every minter becomes a liquidity provider at once. No operator, no reward token, no one to trust. The launch *is* the liquidity.
+
+That's the end state worth building toward: liquidity as a built-in utility of the protocol, not something a person has to volunteer for.
+
+## What to expect
+
+We match Uniswap-2018 in *pattern,* not scale. This won't be a farming-fueled liquidity explosion. The realistic goal is enough depth for price discovery, enough confidence for holders to trade, and enough successful launches to make creator-led liquidity feel obvious. The curve is slower, niche-first, and organic, but if the first pools work, it compounds.
+
+The pools we seed now aren't the destination. They're the proof-of-concept that earns the right to build the launchpad, the thing that, in every version of this story, actually compounds.
+
+Welcome to 2018. The assets are already here. Now they need markets.
