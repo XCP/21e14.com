@@ -1,0 +1,197 @@
+import { ArticleLayout } from '@/components/ArticleLayout'
+import { FillMeter, ForkDiagram } from '@/components/FairmintDiagram'
+import { PoolSimulator } from '@/components/PoolSimulator'
+
+export const article = {
+  author: 'Dan Anderson',
+  date: '2026-08-04',
+  title: 'A Launchpad With No Platform',
+  description:
+    'Every launchpad is a company that gets paid on the 98% of launches that fail. Counterparty is about to run the same product as a consensus rule instead.',
+}
+
+export const metadata = {
+  title: article.title,
+  description: article.description,
+  openGraph: {
+    title: article.title,
+    description: article.description,
+    type: 'article',
+    url: 'https://www.21e14.com/articles/failure-to-launch',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: article.title,
+    description: article.description,
+  },
+}
+
+export default (props) => <ArticleLayout article={article} {...props} />
+
+> **Disclosure:** I hold XCP, I wrote the pools PR and the fairmint-pool PR, and I run [xcp.io](https://www.xcp.io), where the Counterparty numbers come from. This argues that a token I own should go up. Check the math.
+
+Every launchpad in crypto is a company. In early August, at **block 961,100**, Counterparty gets one at the protocol level instead.
+
+That distinction is the whole argument, so here's what it buys. Nobody holds the money during the raise. Nobody takes a percentage. And the liquidity a successful launch creates is locked at an address with no key — **a rug pull isn't mitigated here, it's unavailable**, to the creator included.
+
+That's worth building because of what the existing ones cost, and the cost isn't the fee.
+
+Launchpads are the most popular product in crypto and they genuinely work — pump.fun turned launching a token into a one-click act, and Pons has put **220,708 tokens** on Robinhood Chain since the summer. Of those, **3,254 reached real liquidity: 1.47%.** That's the going rate. pump.fun runs around 0.8%, Believe 2.58%, LetsBonk 1.02%.
+
+Now look at who got paid. In its first week alone Pons cleared **$340,000 in protocol revenue and paid $2.65M to creators.** Roughly 98% of launches went nowhere and the platform's economics never noticed, because the platform is a company sitting between buyers and tokens, taking a cut of the flow either way.
+
+Take the company out and that cut doesn't disappear. It goes somewhere else — and where it goes is the entire argument.
+
+## Where the value goes instead
+
+**To the token being launched.** The XCP raised never touches a founder's wallet; it becomes the pool's quote reserve, and the LP tokens are issued to an address nobody holds the key to. The token gets a market from block one, and it belongs to the token rather than to whoever launched it.
+
+There is a 0.5% fee on every trade through an XCP pair — but because the LP tokens are burned, **nobody can ever claim it.** Trading fees accrue to the reserves, so the pool gets permanently deeper every time somebody uses it. That's the one cut in the system, and it's paid to the market itself.
+
+**To XCP.** Pools on XCP pairs charge that 0.5% where other pairs charge 1%, so the protocol routes trade through XCP by design, and a fairmint-funded pool is quoted in XCP by definition. **Every launch of this kind both demands XCP and puts XCP beyond easy reach.** Be precise about what that means, because it's easy to overstate: burning the LP tokens locks the _ratio_, not the reserve. Nobody can withdraw the pool, but anyone selling tokens into it takes XCP out. What's durably locked is the residue the curve can never surrender — about **31%**, or 2,139 XCP per launch.
+
+## The flywheel
+
+1. A launch needs XCP, so launches create demand for it.
+2. A successful launch commits **6,900 XCP** to a pool nobody can withdraw — of which roughly 2,139 is durably unreachable and the rest is swappable.
+3. Less float against more demand supports the price.
+4. A higher XCP price makes every existing pool deeper in dollar terms.
+
+Point four needs an asterisk, because the obvious version of it is wrong. If XCP rises 10× and the token's dollar price doesn't follow, arbitrage moves the reserve by **√10, not 10** — a pool holding 6,900 XCP settles nearer 2,180 XCP, worth about $34,300 rather than $10,800. Real, and a third of what multiplying naively would suggest.
+
+The loop also weakens as it works, and it's better to say that here than to spring it later. About 620,000 XCP has moved at all since 2024, so nine launches would commit roughly 10% of everything that actually trades — though only about 3% of it durably, once you account for the part sellers can pull back out. At ten times the price it takes ninety launches to do the same, because each needs a tenth as many coins to build the same dollar-deep pool. **This is a bootstrapping mechanism, not a perpetual one.** It bites hardest now and tapers as it succeeds — and a market that $97,500 of buying can move by a tenth is a market $97,500 of selling can move back.
+
+## Why a standard and not a toolkit
+
+A Counterparty fairminter already has a dozen settable parameters, and seven of them change what you're actually agreeing to as a buyer. Is there a price, or is it free? Is there a soft cap, so you get refunded if it misses? A per-address cap? A premint the creator keeps? A commission skimmed off each mint? Does your payment burn or accrue? Is there a per-transaction limit?
+
+That's seven yes-or-no questions before you look at a single number — and across the 315 fairmints ever run, **16 different combinations of those answers** have shown up in the wild. Add the actual values and very nearly every launch is its own bespoke contract.
+
+Which is the problem a standard solves, and it isn't that the parameters are bad. They're good. The two that matter most have simply gone unused: the soft cap in 9 launches out of 315, the per-address cap in **none of them**. The real cost is that a buyer facing a fairmint today has to read it like a contract, every single time, and almost nobody will.
+
+A standard collapses that into recognition. **XCP-69** should tell you, without reading anything: one price for everyone, 1% maximum per address, your money back if it misses, liquidity locked where nobody can reach it, and nothing set aside for the creator. You stop inspecting and start expecting.
+
+So this isn't a proposal to invent parameters. It's a proposal to stop inventing them — to fix one set, turn on the two safety features that ship disabled, and add the third that doesn't exist until block 961,100. And the refund isn't theoretical: the ledger records **21 refund events across 11 addresses** on three separate occasions, most recently in February. That path works. What's new in August is the pool.
+
+## What you get as a participant
+
+1. **If it doesn't fill, your XCP comes back automatically** — enforced by consensus, not by a team's goodwill. No token is created, so there's nothing to sell, nobody to sell it to, and no exit to time. IDOs that refund do it at someone's discretion; a bonding curve never refunds at all.
+2. **Nobody gets in cheaper than you** — among minters. Everyone pays one price for one allotment, so there's no earlier price to snipe.
+3. **Nobody can pull the liquidity.** The LP tokens are burned at creation. This one isn't novel — pump.fun burns LP at graduation too — but it's table stakes worth having.
+
+Two costs attach to that last one and they're the real ones. **Your XCP is committed for up to four weeks** — capital sits idle through the window, and a refund returns the same number of coins, not the same number of dollars. If XCP falls 15% while you wait, that's yours. And **100 XCP is above what most Counterparty buyers typically commit**, which is exactly why filling a launch is hard.
+
+## The mint distributes, the pool prices
+
+The 1% cap isn't there to cap your upside. It's there to keep two jobs apart that every other launchpad runs together.
+
+During the mint you aren't building a position, you're backing one. Everyone puts in on the same terms, and 100 XCP is the most anyone can contribute. It's a support phase, deliberately too small to be a strategy.
+
+**If you want more than 1%, you buy it afterward — from the pool, at whatever the market says.** That's where price discovery belongs. On a bonding curve those are the same phase, which is precisely why being early is the entire game.
+
+Which sets up the thing a later buyer should know, because nobody else will tell you: **the mint cohort is a synchronized overhang.** All 69M minted tokens sit at 1× against a pool quoting 2.23×, at one cost basis, with one trigger. "Nobody gets in cheaper than you" is true among minters and false for you. The 69/31 split is what keeps that overhang from being 9×, but it doesn't make it zero.
+
+<PoolSimulator />
+
+The reserves never empty — pulling XCP out means paying more tokens for less, into a price you're destroying as you go. Note also what depth this is built for: at 190 participants the average ticket is about 36 XCP, roughly $57, and a $2,000 buy moves this pool around 40%. It is a small market by construction.
+
+## A worked example
+
+Supply is 100,000,000, split two ways: **69,000,000 to minters, 31,000,000 to the pool.** The window is 4,200 blocks, about four weeks. The mintable amount and the soft cap are the same number, so the launch is binary — it fills or it refunds.
+
+**Alice commits 100 XCP for 1,000,000 tokens.** That's the per-address maximum, 1% of supply. She can't buy more, and neither can anyone else.
+
+**If enough others do the same,** the soft cap clears. Everyone's tokens credit at once at the price they all paid, and the 6,900 XCP raised pairs with the 31,000,000 reserved tokens to open a pool.
+
+It opens at **2.23× the mint price**, and that number isn't chosen, it's arithmetic. Minters bought 69M tokens with 6,900 XCP, so they paid `6,900 ÷ 69,000,000`. The pool holds the same 6,900 XCP against only 31M tokens, so it quotes `6,900 ÷ 31,000,000`. Fewer tokens behind the same XCP is a higher price — by exactly `69 ÷ 31 = 2.23`.
+
+**If it doesn't fill,** nothing happens. No token exists, Alice's 100 XCP returns to her wallet, and she's out one Bitcoin transaction fee.
+
+<ForkDiagram standard="pool" />
+
+## The soft cap does two jobs
+
+The threshold that triggers the refund also sets a floor on how many people are needed, because `soft cap ÷ max per address` is a headcount.
+
+That floor is **69 addresses** — but only if every participant maxes out, which nobody expects. At the commitment sizes buyers actually bring, filling 69,000,000 tokens takes **closer to 190 people.** A floor is a floor, not a forecast, and 190 is the number that matters.
+
+It matters because of what the ledger says about survival. Every asset that ever traded on Counterparty, grouped by how many distinct people ever paid for it, wash trades and scam prints excluded:
+
+| Distinct paid buyers | Assets | Traded 6+ months | Still trading today |
+| -------------------- | ------ | ---------------- | ------------------- |
+| 1–4                  | 14,344 | 0%               | 6.7%                |
+| 5–9                  | 3,028  | 8.3%             | 10.7%               |
+| 10–24                | 2,482  | 40.2%            | 19.6%               |
+| 25–49                | 1,138  | 67.9%            | 37.2%               |
+| 50–74                | 427    | 89.5%            | 60.4%               |
+| 75–99                | 171    | 93.5%            | 72.4%               |
+| **100–199**          | 204    | **98.0%**        | **79.4%**           |
+| 200+                 | 89     | 100%             | 95.5%               |
+
+The two columns measure different things — a token can trade briefly, go quiet for years, then print once last month, which is why the top row shows 0% sustained but 6.7% technically alive. Below ten buyers essentially nothing sustains. Past a hundred, almost everything does. Concentration says the same from the other side: median realized value runs **twelve times higher** for assets whose largest holder owns under 10% than for those above 70%, monotonic across every band between.
+
+**The obvious objection is that this is backwards:** tokens got a hundred buyers because people wanted them, so headcount is a symptom of demand rather than a cause of survival. That's partly true and I won't pretend otherwise. What a floor can do is rule out the opposite case. A Pons launch graduates on 4.2 ETH of liquidity, pump.fun on roughly 80 SOL, and **three wallets can clear either bar.** A soft cap over a per-address cap cannot, by construction. It doesn't manufacture demand; it refuses to certify its absence.
+
+A second filter sits beside it: the standard requires a **named** Counterparty asset, which costs 0.5 XCP where a numeric one is free. Named assets trade past six months 43.5% of the time against 7.3% for numeric. (Their _value_ gap is much less impressive than it first looks — median realized value is $1,264 against $605, roughly 2×, and the eye-catching averages are a handful of Rare Pepe-era outliers.) Some of the survival gap is selection: people willing to burn half an XCP were more committed to begin with. That's the mechanism, not a confound.
+
+## Sixty-nine addresses aren't sixty-nine people
+
+The obvious attack on a headcount floor is that addresses are free. Nothing in the consensus rules can tell one person with 69 wallets from 69 people, and I'm not going to claim otherwise.
+
+What the rules can't see, the ledger can. Twelve years of history means every address arrives with a record — when it appeared, what it has issued, what it has traded. Sock puppets don't have one. Across 225,000 buyer-and-asset pairs:
+
+|                            | New to the chain when they bought | Had issued or traded before |
+| -------------------------- | --------------------------------- | --------------------------- |
+| Assets with real markets   | 23.7%                             | **86.1%**                   |
+| Assets flagged low-quality | **94.7%**                         | 9.7%                        |
+
+(These are two separate measures, not halves of one — an address can be neither, which is why the rows don't total 100%.)
+
+A launch filled by seventy addresses collecting since 2017 doesn't look anything like one filled by fifteen wallets created last Tuesday. The tell is an order of magnitude wide.
+
+It's a signal rather than a verdict, and it's weakest exactly where it matters most: a genuinely popular launch draws new wallets too, so the check reads cleanest on the launches you care least about.
+
+## The parameters
+
+| Parameter                | Value                             |
+| ------------------------ | --------------------------------- |
+| **Asset type**           | **Named asset only**              |
+| Supply                   | 100,000,000 (69M mint / 31M pool) |
+| Soft cap                 | 69,000,000 (69%)                  |
+| Max per address          | 1,000,000 (1% of supply)          |
+| Mint price               | 0.1 XCP per 1,000 tokens          |
+| Mint window              | 4,200 blocks (~4 weeks)           |
+| **Raised at soft cap**   | **6,900 XCP**                     |
+| **Max commitment**       | **100 XCP**                       |
+| **Minimum participants** | **69** (realistically ~190)       |
+| Pool reserve             | 31,000,000 tokens                 |
+| LP tokens                | Locked at an unspendable address  |
+| Creator allocation       | **None**                          |
+
+**6,900 XCP of depth** is where a normal buyer stops getting hurt: against a $56 median trade, slippage runs about 1.0%. It also lands where the rest of the industry independently converged — Pons graduates at ~$8,000 of liquidity, pump.fun at the same order.
+
+## What the creator gets
+
+Nothing. No premint, no commission, no allocation. A creator who wants tokens mints alongside everyone else, capped at the same 1%.
+
+That's deliberate, and it should be stated plainly rather than discovered: **this is not a fundraise.** The 6,900 XCP goes into the pool, not a treasury. What a creator gets is a market, a clean cap table, and a launch nobody can accuse them of rugging, because the rug is architecturally unavailable. Where credibility is the asset — a game with players, an art series with collectors, a tool with users — that's worth real money and can't be bought any other way. For anything needing a budget, this is the wrong mechanism.
+
+It's a fair launch, and that applies to the person who started it. Everyone pays the same price during the mint, capped the same way; anyone who wants more buys it afterward at whatever the pool quotes. A creator is simply one more participant, with no path nobody else has.
+
+## What could go wrong
+
+**Locked liquidity is locked both ways.** If everyone dumped at once they'd recover about **4,750 of the 6,900 XCP, or 69%** — the rest stays permanently. That's the constant product: each token sold buys less XCP than the last, so the reserve approaches zero without arriving. The share that stays is the flip side of the opening premium and you can't lower one without raising the other. A pool holding only 10% of supply would strand just 10%, but it would open at 9× and hand whoever sells first a windfall that whoever sells last pays for. The 31% is what a modest premium costs.
+
+**If XCP appreciates, these numbers need rescaling.** Everything is denominated in XCP while people think in dollars, so the ladder is XCP-6900 today, XCP-690 at ten times the price, XCP-69 at a hundred times.
+
+**And none of it makes a token good.** The mechanism can guarantee distribution, a market, and a refund. It cannot make anyone want what you launched.
+
+## What happens at block 961,100
+
+The parts have been sitting in the protocol for years, and 315 launches managed not to assemble them. In August the last one arrives, and a launch can pay its own proceeds into a market that nobody — including the person who created it — can ever withdraw.
+
+That doesn't fix the 98%. Most launches will still fail, here as anywhere. What changes is that failing costs a buyer one Bitcoin transaction fee instead of a bag, and that clearing the bar takes people rather than a wallet with enough money in it.
+
+If you want to run one, the [pool mechanics and seeding math are here](/articles/seed-your-first-pool) and the [implementation is here](/articles/fairmint-funded-pools). After block 961,100, it's a question of whether anyone launches.
+
+_Counterparty figures from the [xcp.io](https://www.xcp.io) canonical mirror: all 315 fairminters and their parameters, refund events from the credit/debit ledger, and every asset's distinct paid buyers. An asset is excluded as low-quality when at least half its trading is self-dealt across 30 or more trades, or when it appears on a curated wash/scam list; issuers with four or more flagged assets amounting to half their catalogue are propagated. Pool math is the protocol's own `compute_pool_output`. Pons and pump.fun figures are from public reporting. Dollar glosses use XCP at $1.57 and BTC at $64,760 as of 4 August 2026._
